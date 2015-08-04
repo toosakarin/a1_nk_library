@@ -1,0 +1,13 @@
+echo "start to release aar..."
+chmod +x gradlew
+
+#echo "clean project..."
+#./gradlew clean
+
+echo "rebuild project..."
+./gradlew aR
+#cp ./build/outputs/aar/NabiConnectivityLibrary_JSDK-release.aar ~/Documents/temp/apk/nabiconnectivity_jsdk.aar
+
+echo "========================================================"
+#ls -al ~/Documents/temp/apk/
+echo "aar complete."

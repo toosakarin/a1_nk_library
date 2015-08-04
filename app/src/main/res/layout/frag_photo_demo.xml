@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#c0c0c0"
+        android:id="@+id/layout_rl_loadWrapperTop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:text="Loading..."
+            android:id="@+id/tv_loadingTop"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <com.fuhu.konnect.library.view.PhotoView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_rl_loadWrapperTop"
+        android:layout_above="@+id/layout_rl_loadWrapperBottom"
+        android:id="@+id/pv_photoView"
+        android:layout_alignParentLeft="true" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#c0c0c0"
+        android:id="@+id/layout_rl_loadWrapperBottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:text="Loading..."
+            android:id="@+id/tv_loadingBottom"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+</RelativeLayout>

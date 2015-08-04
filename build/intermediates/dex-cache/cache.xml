@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/classes-3bf327c57deea925c4b86d941cb0f56138580b71.jar" />
+    </item>
+    <item
+        jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/classes-1a94665c017934eca18c49c0adf28c6e43e1d263.jar" />
+    </item>
+    <item
+        jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/libs/internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-f99a61022c7810423fb3eff249a0bf7712b4bb6f.jar" />
+    </item>
+    <item
+        jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
+        <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/classes-95ef02afacbf950b5859abddd8de5cd93ee3e94c.jar" />
+    </item>
+    <item
+        jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/classes-58edfea56150ea0c42dc32d27b73d55855c208c6.jar" />
+    </item>
+    <item
+        jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/exploded-aar/App1_NabiKonnect_Library/library/unspecified/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="adbc896ca48ae420571b0b54605f7b2082311060">
+        <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/classes-1556dd1cc1ea58ee4a2267804987c1181f709bb6.jar" />
+    </item>
+    <item
+        jar="/Users/jacktseng/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
+        <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-010243dc317ffd5a1c87615a1e472622f48af0a3.jar" />
+    </item>
+
+</items>

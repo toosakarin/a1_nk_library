@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_photo_item">
+
+    <RelativeLayout
+        android:id="@+id/photo_layout_ll_infoWrapper"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="64dp"
+            android:id="@+id/photo_iv_avatar"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:src="@mipmap/photo_avatar_default"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/photo_iv_avatar"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Name"
+            android:id="@+id/photo_tv_childName" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/photo_iv_avatar"
+            android:layout_below="@+id/photo_tv_childName"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Date"
+            android:id="@+id/photo_tv_date" />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="54dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/photo_btn_delete"
+            android:background="@null"
+            android:src="@mipmap/photo_delete" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/photo_iv_photo"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/photo_layout_ll_infoWrapper"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitStart"/>
+</LinearLayout>

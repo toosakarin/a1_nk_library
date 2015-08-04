@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        class="com.fuhu.konnect.library.view.SubjectView"
+        android:id="@+id/avatar_solid_slv_SolidMenuView" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:background="#334455" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/border_basic"
+            android:id="@+id/avatar_solid_iv_Avatar" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:textColor="#ffffff"
+            android:text="+C"
+            android:background="@drawable/border_basic"
+            android:id="@+id/avatar_solid_btn_addContent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/avatar_solid_btn_addContent"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:textColor="#ffffff"
+            android:text="+S"
+            android:background="@drawable/border_basic"
+            android:id="@+id/avatar_solid_btn_addSubject" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/avatar_solid_btn_addSubject"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:textColor="#ffffff"
+            android:text="↑"
+            android:background="@drawable/border_basic"
+            android:id="@+id/avatar_solid_btn_topLayout" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/avatar_solid_btn_topLayout"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:textColor="#ffffff"
+            android:text="→"
+            android:background="@drawable/border_basic"
+            android:id="@+id/avatar_solid_btn_rightLayout" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/avatar_solid_btn_rightLayout"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:textColor="#ffffff"
+            android:text="↓"
+            android:background="@drawable/border_basic"
+            android:id="@+id/avatar_solid_btn_bottomLayout" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/avatar_solid_btn_bottomLayout"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:textColor="#ffffff"
+            android:text="←"
+            android:background="@drawable/border_basic"
+            android:id="@+id/avatar_solid_btn_leftLayout" />
+    </RelativeLayout>
+</LinearLayout>
