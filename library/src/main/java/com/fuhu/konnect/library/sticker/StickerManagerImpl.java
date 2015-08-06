@@ -12,24 +12,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * This class is an instance of StickerManage, it's used to operate the
+ * sticker relationship work. The class provides a default extension
+ * provider of StickerProvider and a default storage of StickerStorage
+ *
  * Created by jacktseng on 2015/7/28.
  */
 class StickerManagerImpl implements StickerManager {
 
+    /** Root directory of storage */
     private static final String STICKER_STORAGE_FOLDER = "chat_ext_sticker";
 
+    /** String for sticker decode  */
     private static String STICKER_DECODE_PREFIX = "#::#";
 
     private Context mContext;
 
+    /** Instance of StickerDownloader for sticker downloading */
     private StickerDownloader mDownLoader;
 
+    /** Instance of StickerStore for storing sticker to external storage */
     private StickerStorage mExtStorage;
 
+    /** Instance of StickerProvider for fetching sticker from application */
     private StickerProvider mDefaultProvider;
 
+    /** Instance of StickerProvider for fetching sticker from external storage */
     private StickerProvider mExtProvider;
 
+    /** The cache for stickers quickly searching */
     private HashMap<String, Sticker> mStickerTable = new HashMap<>();
 
     private OnDownloadListener mOnDownloadListener;
@@ -43,13 +54,13 @@ class StickerManagerImpl implements StickerManager {
         mContext = ctx;
 
         /**
-         * create default storage
+         * create default storage of StickerStorage
          */
         String path = Environment.getExternalStorageDirectory().getPath() + File.separator + STICKER_STORAGE_FOLDER;
         mExtStorage = new StickerStorageImpl(path);
 
         /**
-         * create default ext sticker provider
+         * create default ext sticker provider of StickerProvider
          */
         mExtProvider = new StickerProvider() {
 
@@ -57,7 +68,7 @@ class StickerManagerImpl implements StickerManager {
 
             @Override
             public StickerCategory getCategory(String categoryId) {
-                if(!ParamChecker.isString(categoryId)) return null;
+                if(!ParamChecker.isValid(categoryId)) return null;
 
                 for(StickerCategory category : mCategoryList)
                     if(category.getId().equals(categoryId))
@@ -130,7 +141,7 @@ class StickerManagerImpl implements StickerManager {
     public StickerCategory getCategory(String categoryId) {
         StickerCategory rtn = null;
         do {
-            if(!ParamChecker.isString(categoryId)) break;
+            if(!ParamChecker.isValid(categoryId)) break;
 
             if(mDefaultProvider != null)
                 rtn = mDefaultProvider.getCategory(categoryId);
@@ -151,7 +162,7 @@ class StickerManagerImpl implements StickerManager {
 
         StickerCategory category;
         do {
-            if(!ParamChecker.isString(stickerId)) break;
+            if(!ParamChecker.isValid(stickerId)) break;
             if((category = getCategory(categoryId)) == null) break;
 
             for(Sticker sticker :category.getStickers())
@@ -198,7 +209,7 @@ class StickerManagerImpl implements StickerManager {
         Sticker rtn = null;
 
         do {
-            if(!ParamChecker.isString(code)) break;
+            if(!ParamChecker.isValid(code)) break;
             if(mStickerTable == null) break;
             if(!mStickerTable.containsKey(code)) break;
 
@@ -227,14 +238,15 @@ class StickerManagerImpl implements StickerManager {
 
     @Override
     public void download(String categoryId) {
-        if(!ParamChecker.isString(categoryId)) return;
+        if(!ParamChecker.isValid(categoryId)) return;
         if(mDownLoader == null) return;
 //        if(mExtStorage == null) return;
 
         mDownLoader.download(categoryId, mExtStorage);
 
         /**
-         * notify provider to update the sticker and rebuild the sticker table for quick search
+         * notify provider to update the sticker and rebuilding the sticker
+         * table for quick search
          */
         if(mExtProvider != null) {
             mExtProvider.update();

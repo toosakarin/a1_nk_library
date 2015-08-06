@@ -16,10 +16,6 @@ public class Debug {
     }
 
     /**
-     * jack
-     */
-
-    /**
      * jack@150731
      * 1. 修正SubjectView release()的null pointer問題
      * 2. Sticker module 初版完成, 包含download, store, provider等三大部分

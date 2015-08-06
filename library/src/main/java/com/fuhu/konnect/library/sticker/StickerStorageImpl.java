@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This class implements the StickerStorage and providing basic read,
+ * write function for sticker storing
+ *
  * Created by jacktseng on 2015/7/30.
  */
 public class StickerStorageImpl implements StickerStorage {
@@ -44,17 +47,17 @@ public class StickerStorageImpl implements StickerStorage {
     @Override
     public void saveCategory(StickerCategory category) throws IOException {
         if(category == null) return;
-        if(!ParamChecker.isString(mRootPath)) return;
+        if(!ParamChecker.isValid(mRootPath)) return;
 
         String categoryDirName = category.getId() +
-                ((ParamChecker.isString(category.getName())) ? FILE_SEPARATOR + category.getName() : "");
+                ((ParamChecker.isValid(category.getName())) ? FILE_SEPARATOR + category.getName() : "");
 
         File f = new File(mRootPath + File.separator + categoryDirName);
         if(!f.exists())
             if(!f.mkdirs()) throw new IOException("can't make category directory");
 
         /**
-         * clean directory
+         * clean a directory of saving category
          */
         Debug.dumpLog(TAG, "clean category directory...");
         for(File stickerFile : f.listFiles())
@@ -75,9 +78,9 @@ public class StickerStorageImpl implements StickerStorage {
     @Override
     public void saveSticker(String categoryId, String categoryName, String stickerId, Bitmap stickerImage) throws IOException{
         do {
-            if(!ParamChecker.isString(mRootPath)) break;
-            if(!ParamChecker.isString(categoryId)) break;
-            if(!ParamChecker.isString(stickerId)) break;
+            if(!ParamChecker.isValid(mRootPath)) break;
+            if(!ParamChecker.isValid(categoryId)) break;
+            if(!ParamChecker.isValid(stickerId)) break;
             if(stickerImage == null || stickerImage.isRecycled()) break;
 
             String categoryDir = mRootPath + File.separator + categoryId +
@@ -119,7 +122,7 @@ public class StickerStorageImpl implements StickerStorage {
         ArrayList<StickerCategory> rtn = new ArrayList<>();
 
         do {
-            if(!ParamChecker.isString(mRootPath)) break;
+            if(!ParamChecker.isValid(mRootPath)) break;
 
             File root = new File(mRootPath);
             if(!root.isDirectory()) {
@@ -128,7 +131,7 @@ public class StickerStorageImpl implements StickerStorage {
             }
 
             /**
-             * load sticker category
+             * load all of sticker categories
              */
             File[] categoryList = root.listFiles();
             for(File cf : categoryList ) {
@@ -143,7 +146,7 @@ public class StickerStorageImpl implements StickerStorage {
                 StickerCategory category = new StickerGroup(categoryId, categoryName);
 
                 /**
-                 * load sticker
+                 * load all stickers of this category
                  */
                 File[] stickerList = cf.listFiles();
                 for(File sf : stickerList) {

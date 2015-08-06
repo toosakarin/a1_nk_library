@@ -74,7 +74,7 @@ public class DefaultStickerProvider implements StickerProvider {
 
     @Override
     public StickerCategory getCategory(String categoryId) {
-        if(!ParamChecker.isString(categoryId)) return null;
+        if(!ParamChecker.isValid(categoryId)) return null;
 
         for(StickerCategory category : mCategoryList)
             if(category.getId().equals(categoryId))

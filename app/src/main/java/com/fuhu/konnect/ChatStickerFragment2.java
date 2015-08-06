@@ -228,7 +228,7 @@ public class ChatStickerFragment2 extends Fragment {
             @Override
             public void download(String stickerCategoryId, StickerStorage storage) {
 
-                if(!ParamChecker.isString(stickerCategoryId)) return;
+                if(!ParamChecker.isValid(stickerCategoryId)) return;
                 if(storage == null) return;
 
                 String categoryName = null;
@@ -260,7 +260,7 @@ public class ChatStickerFragment2 extends Fragment {
                 }
 
 
-                if(!ParamChecker.isString(categoryName)) return;
+                if(!ParamChecker.isValid(categoryName)) return;
                 if(downloadList == null) return;
 
                 for(int i=0; i<downloadList.length; i++) {

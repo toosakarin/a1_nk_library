@@ -5,6 +5,9 @@ import com.fuhu.konnect.library.utility.ParamChecker;
 import java.util.ArrayList;
 
 /**
+ * StickerGroup is an instance of StickerCategory.
+ * Developer can use this class to hold stickers in your own StickerProvider.
+ *
  * Created by jacktseng on 2015/7/27.
  */
 public class StickerGroup implements StickerCategory {
@@ -14,17 +17,17 @@ public class StickerGroup implements StickerCategory {
     public Sticker defaultSticker;
     private ArrayList<Sticker> mStickerList = new ArrayList<>();
 
-    public StickerGroup(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     public StickerGroup(ArrayList<Sticker> stickers) {
         mStickerList = stickers;
     }
 
-    public StickerGroup(String id, String name, Sticker defaultSticker, ArrayList<Sticker> stickers) {
-        this(id, name);
+    public StickerGroup(String categoryId, String CategoryName) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public StickerGroup(String categoryId, String CategoryName, Sticker defaultSticker, ArrayList<Sticker> stickers) {
+        this(categoryId, CategoryName);
         this.defaultSticker = defaultSticker;
         this.mStickerList = stickers;
     }
@@ -61,7 +64,7 @@ public class StickerGroup implements StickerCategory {
 
     @Override
     public void addSticker(final String id, final Object resourceId) {
-        if(!ParamChecker.isString(id)) return;
+        if(!ParamChecker.isValid(id)) return;
         if(resourceId == null) return;
         if(!(resourceId instanceof Integer) && !(resourceId instanceof String))
             throw new ClassFormatError("resource id is not Integer or String!");
