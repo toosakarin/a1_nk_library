@@ -4,7 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.fuhu.konnect.library.view.PhotoView;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -47,6 +48,47 @@ public class PhotoFragment extends Fragment {
      */
     ArrayList<PhotoItem> mItemList = new ArrayList<PhotoItem>();
 
+    /**
+     * Item for demo using
+     */
+    class PhotoItem {
+        int drawableId;
+        int w;
+        int h;
+        String name;
+        String date;
+
+        Bitmap bitmap;
+
+        public PhotoItem(int drawable) {
+            this.drawableId = drawable;
+        }
+
+        public PhotoItem(int drawable, int w, int h) {
+            this.drawableId = drawable;
+            this.w = w;
+            this.h = h;
+        }
+
+        public void createBitmap() {
+            int size = w*h;
+            int[] src = new int[size];
+
+            Array.setInt(src, 0, drawableId);
+
+//            bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+//            Canvas canvas = new Canvas(bitmap);
+//            canvas.drawColor(drawableId);
+            bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            Drawable drawable = getResources().getDrawable(drawableId);
+            drawable.setBounds(0, 0, w, h);
+            drawable.draw(canvas);
+
+
+
+        }
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.frag_photo_demo, container, false);
@@ -74,16 +116,22 @@ public class PhotoFragment extends Fragment {
 
     public void doPhoto() {
         //
-        mItemList.add(new PhotoItem(Color.RED));
-        mItemList.add(new PhotoItem(Color.YELLOW));
-        mItemList.add(new PhotoItem(Color.BLACK));
-        mItemList.add(new PhotoItem(Color.BLUE));
-        mItemList.add(new PhotoItem(Color.GRAY));
-        mItemList.add(new PhotoItem(Color.GREEN));
-        mItemList.add(new PhotoItem(Color.LTGRAY));
+//        mItemList.add(new PhotoItem(Color.RED));
+//        mItemList.add(new PhotoItem(Color.YELLOW));
+//        mItemList.add(new PhotoItem(Color.BLACK));
+//        mItemList.add(new PhotoItem(Color.BLUE));
+//        mItemList.add(new PhotoItem(Color.GRAY));
+//        mItemList.add(new PhotoItem(Color.GREEN));
+//        mItemList.add(new PhotoItem(Color.LTGRAY));
+        mItemList.add(new PhotoItem(R.drawable.selector_blue));
+        mItemList.add(new PhotoItem(R.drawable.selector_red));
+        mItemList.add(new PhotoItem(R.drawable.selector_purple));
+        mItemList.add(new PhotoItem(R.drawable.selector_green));
+        mItemList.add(new PhotoItem(R.drawable.selector_yello));
+        mItemList.add(new PhotoItem(R.drawable.selector_black));
 
         /**
-         * for photo page display use
+         * For photo page display using
          */
 //        ArrayList<Bitmap> photoRawDataList = new ArrayList<Bitmap>(); //default item
 
@@ -97,9 +145,9 @@ public class PhotoFragment extends Fragment {
             item.w = w;
             item.h = h;
             item.name = "Jack_" + i;
-            item.date = new Date().toString();
+            item.date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
 
-            //for photo page display use
+            //For photo page display using
             item.createBitmap();
 //            photoRawDataList.add(item.bitmap); //default item
 
@@ -113,7 +161,7 @@ public class PhotoFragment extends Fragment {
         mPhotoView.setItemAnimator(new DefaultItemAnimator());
 
         /**
-         * for photo page display
+         * For photo page display
          */
 //        mPhoPageAdapter = new PhotoView.DefaultPhotoPageAdapter(this, photoRawDataList); //default item
         mPhoPageAdapter = new MyPhotoPageAdapter(getActivity());
@@ -222,39 +270,7 @@ public class PhotoFragment extends Fragment {
         wrapper.startAnimation(slideDown);
     }
 
-    /**
-     * Item for demo using
-     */
-    class PhotoItem {
-        int color;
-        int w;
-        int h;
-        String name;
-        String date;
 
-        Bitmap bitmap;
-
-        public PhotoItem(int c) {
-            this.color = c;
-        }
-
-        public PhotoItem(int c, int w, int h) {
-            this.color = c;
-            this.w = w;
-            this.h = h;
-        }
-
-        public void createBitmap() {
-            int size = w*h;
-            int[] src = new int[size];
-
-            Array.setInt(src, 0, color);
-
-            bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            canvas.drawColor(color);
-        }
-    }
 
     /**
      *
@@ -311,21 +327,21 @@ public class PhotoFragment extends Fragment {
                 final PhotoItem item = mPhotoList.get(i);
 
                 /**
-                 * cause we want to let photo full whole root view, so check the origin w if it equal to
-                 * bitmap width, need to resize it.
+                 * Cause we want to let photo full whole view on the screen, so check the origin w
+                 * if it equal to bitmap width, it's need to resize.
                  */
                 if(item.w == item.bitmap.getWidth()) {
                     float w = item.w;
                     float h = item.h;
                     int baseW = mPhotoView.getMeasuredWidth() / 2;
                     float newH = (float) Math.rint(((h * baseW) / w));
-                    Bitmap resizeBitmap = Bitmap.createScaledBitmap(item.bitmap, (int) baseW, (int) newH, false);
+                    Bitmap resizeBitmap = Bitmap.createScaledBitmap(item.bitmap, baseW, (int) newH, false);
                     item.bitmap.recycle();
                     item.bitmap = resizeBitmap;
                 }
 
 //                holder.mPhoto.setLayoutParams(new LinearLayout.LayoutParams(item.w, item.h));
-//                holder.mPhoto.setBackgroundColor(item.color);
+//                holder.mPhoto.setBackgroundColor(item.drawableId);
                 holder.mPhoto.setImageBitmap(item.bitmap);
                 holder.mChildName.setText(item.name);
                 holder.mData.setText(item.date);

@@ -1,7 +1,6 @@
 package com.fuhu.konnect.library.sticker;
 
 import android.graphics.Bitmap;
-
 import java.io.IOException;
 import java.util.List;
 

@@ -172,7 +172,6 @@ public class ChatStickerFragment2 extends Fragment {
                                         /**
                                          * remove this subject of sticker category and it's content pf stickers
                                          */
-
                                         mStickerContentMap.remove(view);
                                         mStickerSubjectList.remove(view);
                                         mSubjectView.removeSubject(view);

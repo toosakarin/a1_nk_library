@@ -56,6 +56,15 @@ public class MainFragment extends Fragment{
                 mActivity.switchFragment(new ChatStickerFragment2());
             }
         });
+        /**
+         * Mail demo
+         */
+        root.findViewById(R.id.main_btn_mail).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mActivity.switchFragment(new MailFragment());
+            }
+        });
     }
 
 }

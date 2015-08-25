@@ -16,6 +16,11 @@ public class Debug {
     }
 
     /**
+     * jack@150818
+     * 1. 修正Sticker.getCategoryId為null的問題
+     */
+
+    /**
      * jack@150731
      * 1. 修正SubjectView release()的null pointer問題
      * 2. Sticker module 初版完成, 包含download, store, provider等三大部分

@@ -21,9 +21,9 @@ public class StickerGroup implements StickerCategory {
         mStickerList = stickers;
     }
 
-    public StickerGroup(String categoryId, String CategoryName) {
-        this.id = id;
-        this.name = name;
+    public StickerGroup(String categoryId, String categoryName) {
+        this.id = categoryId;
+        this.name = categoryName;
     }
 
     public StickerGroup(String categoryId, String CategoryName, Sticker defaultSticker, ArrayList<Sticker> stickers) {

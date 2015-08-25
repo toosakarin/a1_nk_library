@@ -17,8 +17,7 @@
             android:id="@+id/photo_iv_avatar"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginRight="5dp"
             android:src="@mipmap/photo_avatar_default"/>
 
         <TextView
@@ -45,7 +44,8 @@
             android:layout_centerVertical="true"
             android:id="@+id/photo_btn_delete"
             android:background="@null"
-            android:src="@mipmap/photo_delete" />
+            android:src="@mipmap/photo_delete"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <ImageView

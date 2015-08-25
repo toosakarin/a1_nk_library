@@ -7,6 +7,14 @@ public class Debug {
 
 
     /**
+     * jack@150818
+     * Photo demo
+     * 1. 修改item_konnect_photo.xml
+     * 2. 修改PhotoFragment->PhotoItem->createBitmap()
+     * 3. 修改photo 時間顯示格式
+     */
+
+    /**
      * jack@150731
      * 1. 新增chat sticker demo, 包括新增sticker(模擬) 刪除sticker(模擬) sticker聊天等功能
      * 2. 新增ParamChecker類別負責檢查參數是否合法

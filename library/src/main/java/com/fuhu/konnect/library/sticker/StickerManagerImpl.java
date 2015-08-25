@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import com.fuhu.konnect.library.Debug;
 import com.fuhu.konnect.library.utility.ParamChecker;
 
 import java.io.File;
@@ -12,13 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class is an instance of StickerManage, it's used to operate the
- * sticker relationship work. The class provides a default extension
- * provider of StickerProvider and a default storage of StickerStorage
- *
- * Created by jacktseng on 2015/7/28.
+ * This class is an instance of StickerManage, it's used to operate the sticker relationship work.
+ * The class provides a default extension provider of StickerProvider and a default storage of
+ * StickerStorage.
+ * <p/>
+ * Author: Jack Tseng(jack.tseng@gmail.com)
  */
 class StickerManagerImpl implements StickerManager {
+
+    private static final String TAG = StickerManagerImpl.class.getSimpleName();
 
     /** Root directory of storage */
     private static final String STICKER_STORAGE_FOLDER = "chat_ext_sticker";
@@ -54,13 +57,13 @@ class StickerManagerImpl implements StickerManager {
         mContext = ctx;
 
         /**
-         * create default storage of StickerStorage
+         * creates default storage of StickerStorage
          */
         String path = Environment.getExternalStorageDirectory().getPath() + File.separator + STICKER_STORAGE_FOLDER;
         mExtStorage = new StickerStorageImpl(path);
 
         /**
-         * create default ext sticker provider of StickerProvider
+         * creates default ext sticker provider of StickerProvider
          */
         mExtProvider = new StickerProvider() {
 
@@ -201,7 +204,9 @@ class StickerManagerImpl implements StickerManager {
     @Override
     public String encodeSticker(Sticker sticker) {
         if(sticker == null) return null;
-        return createStickerCode(sticker.getCategoryId(), sticker.getId());
+        String rtn = createStickerCode(sticker.getCategoryId(), sticker.getId());
+        Debug.dumpLog(TAG, "encodeSticker()->code=" + rtn);
+        return rtn;
     }
 
     @Override

@@ -62,14 +62,6 @@ public class DefaultStickerProvider implements StickerProvider {
         mCategoryList.add(A_category);
         mCategoryList.add(B_category);
         mCategoryList.add(C_category);
-
-        /**
-         * build hash table for quickly searching
-         */
-//        for(StickerCategory category : mCategoryList)
-//            for(Sticker sticker : category.getStickers()) {
-//                mStickerTable.put(StickerManager.)
-//            }
     }
 
     @Override
