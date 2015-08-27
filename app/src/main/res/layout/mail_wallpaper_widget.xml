@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mail_wallpaper_widget_background"
+    android:layout_width="265px"
+    android:layout_height="290px" >
+
+    <View
+        android:id="@+id/mail_wallpaper_top_image"
+        android:layout_width="247px"
+        android:layout_height="194px"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="45px"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mail_sticker_widget_background"
+    android:layout_width="265px"
+    android:layout_height="290px" >
+
+    <ImageView
+        android:id="@+id/mail_sticker_top_image"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/mail_sticker_widget_image_margin_top"
+        android:layout_centerHorizontal="true" 
+        android:scaleType="centerInside"/>
+
+</RelativeLayout>
