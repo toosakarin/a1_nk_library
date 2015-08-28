@@ -73,8 +73,18 @@
       <file leaf-file-name="PaintView.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/PaintView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.65597665" vertical-offset="1215" max-vertical-offset="6105">
-              <caret line="125" column="63" selection-start-line="125" selection-start-column="63" selection-end-line="125" selection-end-column="63" />
+            <state vertical-scroll-proportion="0.7151899" vertical-offset="3839" max-vertical-offset="6420">
+              <caret line="314" column="76" selection-start-line="314" selection-start-column="76" selection-end-line="314" selection-end-column="76" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DrawingView.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/DrawingView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1351" max-vertical-offset="2640">
+              <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -83,14 +93,19 @@
       <file leaf-file-name="MailFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/MailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="467" max-vertical-offset="1860">
-              <caret line="51" column="54" selection-start-line="51" selection-start-column="54" selection-end-line="51" selection-end-column="54" />
-              <folding>
-                <element signature="e#3355#3356#0" expanded="true" />
-                <element signature="e#3394#3395#0" expanded="true" />
-                <element signature="e#4204#4205#0" expanded="true" />
-                <element signature="e#4236#4237#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="1199" max-vertical-offset="2115">
+              <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StickerEffectF.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/StickerEffectF.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="256" max-vertical-offset="885">
+              <caret line="29" column="49" selection-start-line="29" selection-start-column="49" selection-end-line="29" selection-end-column="49" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,13 +113,9 @@
       <file leaf-file-name="EffectManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/EffectManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
+            <state vertical-scroll-proportion="0.0" vertical-offset="166" max-vertical-offset="825">
               <caret line="27" column="41" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#810#811#0" expanded="true" />
-                <element signature="e#841#842#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1510,7 +1521,6 @@
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/EffectCtl.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/frag_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/MainFragment.java" />
-        <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/DrawingView.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/view/EffectView.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/Effect.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/EffectCtrl.java" />
@@ -1525,7 +1535,6 @@
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IEffectUpdatedListener.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IColorWallPaperEffect.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IEraserEffect.java" />
-        <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IMultipleWallPaperEffect.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IPaintEffect.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IPaintThinEffect.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/ISingleWallPaperEffect.java" />
@@ -1534,7 +1543,6 @@
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/NoneEffect.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/EffectCtrlImpl.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/OnEffectUpdateListener.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/frag_mail.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/mail_effect_button_widget.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/mail_effect_button_widget.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/MailEffectButtonWidget.java" />
@@ -1543,7 +1551,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/mail_wallpaper_widget.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/MailWallpaperWidget.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/StickerEffectE.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/StickerEffectF.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/StickerEffectG.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/WallPaperSceneEffect.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/WallPaperColorEffect.java" />
@@ -1556,6 +1563,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/PaintEffectOrangeBold.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/EffectManager.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/_PaintView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/frag_mail.xml" />
+        <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/DrawingView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/StickerEffectF.java" />
+        <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IMultipleWallPaperEffect.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/MailFragment.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/PaintView.java" />
       </list>
@@ -1592,7 +1603,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1645,6 +1655,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2039,6 +2051,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App1_NabiKonnect_Library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App1_NabiKonnect_Library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -2139,7 +2181,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2362,7 +2403,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32724506" sideWeight="0.585287" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3394216" sideWeight="0.4361874" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4155251" sideWeight="0.41471303" order="12" side_tool="false" content_ui="tabs" x="100" y="266" width="855" height="494" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41704717" sideWeight="0.41471303" order="12" side_tool="false" content_ui="tabs" x="100" y="266" width="855" height="494" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2907916" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2405,26 +2446,37 @@
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/PaintView.java</url>
-          <line>206</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/MailFragment.java</url>
+          <line>112</line>
           <properties />
-          <option name="timeStamp" value="183" />
+          <option name="timeStamp" value="189" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/MailFragment.java</url>
+          <line>124</line>
+          <properties />
+          <option name="timeStamp" value="190" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/PaintView.java</url>
+          <line>306</line>
+          <properties />
+          <option name="timeStamp" value="191" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/PaintView.java</url>
+          <line>459</line>
+          <properties />
+          <option name="timeStamp" value="193" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="184" />
+      <option name="time" value="194" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/view/EffectView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26232114" vertical-offset="0" max-vertical-offset="629">
-          <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/CameraEffects.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.19077902" vertical-offset="0" max-vertical-offset="629">
@@ -2458,7 +2510,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.26232114" vertical-offset="0" max-vertical-offset="629">
           <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2466,7 +2517,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3338633" vertical-offset="0" max-vertical-offset="629">
           <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2512,14 +2562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/ISingleWallPaperEffect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.047694754" vertical-offset="0" max-vertical-offset="629">
-          <caret line="2" column="55" selection-start-line="2" selection-start-column="55" selection-end-line="2" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/ITextEffect.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.047694754" vertical-offset="0" max-vertical-offset="629">
@@ -2542,17 +2584,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/frag_mail.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24916944" vertical-offset="0" max-vertical-offset="602">
-          <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/EffectCtrlImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.12400636" vertical-offset="12" max-vertical-offset="960">
@@ -2569,28 +2600,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/SubjectView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3780" max-vertical-offset="6975">
-          <caret line="252" column="59" selection-start-line="252" selection-start-column="59" selection-end-line="252" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/photo_avatar_default.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/mail_effect_button_widget.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.44850498" vertical-offset="0" max-vertical-offset="602">
           <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/MailEffectButtonWidget.java">
@@ -2624,25 +2647,25 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/mail_sticker_widget.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3488372" vertical-offset="0" max-vertical-offset="602">
           <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
           <folding />
         </state>
       </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/mail_wallpaper_widget.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
           <caret line="12" column="49" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="49" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/MailWallpaperWidget.java">
@@ -2665,31 +2688,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/StickerEffectF.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8330684" vertical-offset="301" max-vertical-offset="930">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/StickerEffectG.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.0715421" vertical-offset="16" max-vertical-offset="795">
           <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IMultipleWallPaperEffect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14308426" vertical-offset="0" max-vertical-offset="629">
-          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2709,14 +2711,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IColorWallPaperEffect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09538951" vertical-offset="0" max-vertical-offset="629">
-          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
           <folding />
         </state>
       </provider>
@@ -2744,7 +2738,7 @@
         <state vertical-scroll-proportion="0.8346582" vertical-offset="0" max-vertical-offset="735">
           <caret line="37" column="49" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2753,9 +2747,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.9538951" vertical-offset="0" max-vertical-offset="705">
           <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2773,9 +2764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.78696346" vertical-offset="0" max-vertical-offset="1110">
           <caret line="35" column="53" selection-start-line="35" selection-start-column="53" selection-end-line="35" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2783,9 +2771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21462639" vertical-offset="0" max-vertical-offset="645">
           <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2793,9 +2778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
           <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2803,9 +2785,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3338633" vertical-offset="0" max-vertical-offset="630">
           <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2813,21 +2792,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35771066" vertical-offset="0" max-vertical-offset="630">
           <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/EffectManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
-          <caret line="27" column="41" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#810#811#0" expanded="true" />
-            <element signature="e#841#842#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2839,23 +2803,85 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/SubjectView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.097402595" vertical-offset="3570" max-vertical-offset="6495">
+          <caret line="252" column="59" selection-start-line="252" selection-start-column="59" selection-end-line="252" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/frag_mail.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22425249" vertical-offset="0" max-vertical-offset="602">
+          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/ISingleWallPaperEffect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.047694754" vertical-offset="0" max-vertical-offset="629">
+          <caret line="2" column="55" selection-start-line="2" selection-start-column="55" selection-end-line="2" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IMultipleWallPaperEffect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.09538951" vertical-offset="0" max-vertical-offset="629">
+          <caret line="6" column="65" selection-start-line="6" selection-start-column="65" selection-end-line="6" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/StickerEffectF.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="256" max-vertical-offset="885">
+          <caret line="29" column="49" selection-start-line="29" selection-start-column="49" selection-end-line="29" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/mail/effect/EffectManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
+          <caret line="27" column="41" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/mail/effect/IColorWallPaperEffect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.09538951" vertical-offset="0" max-vertical-offset="629">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/DrawingView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1351" max-vertical-offset="2640">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/fuhu/konnect/MailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="467" max-vertical-offset="1860">
-          <caret line="51" column="54" selection-start-line="51" selection-start-column="54" selection-end-line="51" selection-end-column="54" />
-          <folding>
-            <element signature="e#3355#3356#0" expanded="true" />
-            <element signature="e#3394#3395#0" expanded="true" />
-            <element signature="e#4204#4205#0" expanded="true" />
-            <element signature="e#4236#4237#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="1199" max-vertical-offset="2115">
+          <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/fuhu/konnect/library/view/PaintView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65597665" vertical-offset="1215" max-vertical-offset="6105">
-          <caret line="125" column="63" selection-start-line="125" selection-start-column="63" selection-end-line="125" selection-end-column="63" />
+        <state vertical-scroll-proportion="0.7151899" vertical-offset="3839" max-vertical-offset="6420">
+          <caret line="314" column="76" selection-start-line="314" selection-start-column="76" selection-end-line="314" selection-end-column="76" />
           <folding />
         </state>
       </provider>

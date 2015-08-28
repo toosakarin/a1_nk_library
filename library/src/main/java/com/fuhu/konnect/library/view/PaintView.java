@@ -22,11 +22,13 @@ import com.fuhu.konnect.library.mail.OnEffectUpdateListener;
 import com.fuhu.konnect.library.mail.effect.Effect;
 import com.fuhu.konnect.library.mail.effect.EffectGroup;
 import com.fuhu.konnect.library.mail.effect.EraserEffects;
+import com.fuhu.konnect.library.mail.effect.IColorWallPaperEffect;
 import com.fuhu.konnect.library.mail.effect.IEraserEffect;
+import com.fuhu.konnect.library.mail.effect.IMultipleWallPaperEffect;
 import com.fuhu.konnect.library.mail.effect.IPaintEffect;
 import com.fuhu.konnect.library.mail.effect.ISingleWallPaperEffect;
+import com.fuhu.konnect.library.mail.effect.IStickerEffect;
 import com.fuhu.konnect.library.mail.effect.PaintEffects;
-import com.fuhu.konnect.library.mail.effect.WallPaperEffects;
 import com.fuhu.konnect.library.utility.GenerateIntID;
 
 import java.util.ArrayList;
@@ -46,6 +48,8 @@ public class PaintView extends RelativeLayout {
      * This wrapper is including drawing view, stickers and texts on the screen
      */
     private FrameLayout mDrawingWrapper;
+
+    private RelativeLayout mEffectToolbar;
 
     /**
      * The tool bar is a list to show the effect of drawing email
@@ -117,6 +121,7 @@ public class PaintView extends RelativeLayout {
 
         mMainEffectViewList = new ArrayList<>();
 
+        mEffectToolbar = new RelativeLayout(ctx);
         mDrawingWrapper = new FrameLayout(ctx);
         mDrawingView = new DrawingView(ctx);
         mMainEffectScroller = new ScrollView(ctx);
@@ -134,7 +139,8 @@ public class PaintView extends RelativeLayout {
             subjectScrollerId = GenerateIntID.generateViewId();
         else
             subjectScrollerId = View.generateViewId();
-        mMainEffectScroller.setId(subjectScrollerId);
+//        mMainEffectScroller.setId(subjectScrollerId);
+        mEffectToolbar.setId(subjectScrollerId);
 
         /**
          * Sets layout params
@@ -144,14 +150,19 @@ public class PaintView extends RelativeLayout {
         ScrollView.LayoutParams mainEffectWrapperLp = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
         mMainEffectScroller.addView(mMainEffectWrapper, mainEffectWrapperLp);
         //Sets location of main effect bar
-        RelativeLayout.LayoutParams mainEffectScrollerLp = new LayoutParams(600, RelativeLayout.LayoutParams.MATCH_PARENT);
-        mainEffectScrollerLp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        this.addView(mMainEffectScroller, mainEffectScrollerLp);
+        RelativeLayout.LayoutParams mainEffectScrollerLp = new LayoutParams(LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+//        mainEffectScrollerLp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        this.addView(mMainEffectScroller, mainEffectScrollerLp);
+        mEffectToolbar.addView(mMainEffectScroller, mainEffectScrollerLp);
 
         //Sets the location of sub effect list wrapper is same as subject wrapper
         RelativeLayout.LayoutParams subEffectListWrapperLp = new LayoutParams(LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        mainEffectScrollerLp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        this.addView(mSubEffectListWrapper, subEffectListWrapperLp);
+//        mainEffectScrollerLp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        this.addView(mSubEffectListWrapper, subEffectListWrapperLp);
+        mEffectToolbar.addView(mSubEffectListWrapper, subEffectListWrapperLp);
+
+        RelativeLayout.LayoutParams effectToolbarLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        this.addView(mEffectToolbar, effectToolbarLp);
 
 
         RelativeLayout.LayoutParams drawingViewLp = new LayoutParams(LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -160,13 +171,14 @@ public class PaintView extends RelativeLayout {
         mDrawingWrapper.addView(mDrawingView,drawingViewLp);
 
         RelativeLayout.LayoutParams drawingWrapperLp = new LayoutParams(LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        drawingViewLp.addRule(RIGHT_OF, subjectScrollerId);
-//        this.addView(mDrawingWrapper, drawingWrapperLp);
+        drawingWrapperLp.addRule(RIGHT_OF, subjectScrollerId);
+        this.addView(mDrawingWrapper, drawingWrapperLp);
 
         /**
          * for testing
          */
         mMainEffectScroller.setBackgroundColor(Color.BLUE);
+        mSubEffectListWrapper.setBackgroundColor(Color.LTGRAY);
         mDrawingView.setBackgroundColor(Color.RED);
 
 
@@ -181,8 +193,8 @@ public class PaintView extends RelativeLayout {
 
     public void setEffectContentAdapter(EffectContentAdapter adapter) {
         mEffectContentAdapter = adapter;
-        mEffectContentAdapter.setCurrentEffect(this);
-        mEffectContentWrapper.setAdapter(mEffectContentAdapter);
+//        mEffectContentAdapter.setCurrentEffect(this);
+//        mEffectContentWrapper.setAdapter(mEffectContentAdapter);
     }
 
     public void setEffectCtl(EffectCtrl ctrl) {
@@ -212,6 +224,8 @@ public class PaintView extends RelativeLayout {
         v.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Log.e(TAG, "main effect is clicked!");
+
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     EffectGroup newEffect = e;
 
@@ -221,11 +235,10 @@ public class PaintView extends RelativeLayout {
 
 
                     //Shows the sub effect toolbar
-                    switchEffectToolbar(true);
                     mAdapter.notifyDataSetChanged();
-
+                    switchEffectToolbar(true);
                 }
-                return false;
+                return true;
             }
         });
     }
@@ -267,13 +280,16 @@ public class PaintView extends RelativeLayout {
                     openEffectContent();
                 }
 
-                return false;
+                return true;
             }
         });
     }
 
     private void switchEffectToolbar(boolean isShowSubEffect) {
         if(isShowSubEffect) {
+            //Sets the width of sub effect bar according to the main effect bar
+            mSubEffectListWrapper.getLayoutParams().width = mMainEffectScroller.getWidth();
+
             mMainEffectScroller.setVisibility(View.GONE);
             mSubEffectListWrapper.setVisibility(View.VISIBLE);
         }
@@ -290,11 +306,13 @@ public class PaintView extends RelativeLayout {
             GridLayoutManager lManager = new GridLayoutManager(getContext(), 2);
             lManager.setOrientation(GridLayoutManager.HORIZONTAL);
             mSubEffectListWrapper.setLayoutManager(lManager);
+            mEffectContentAdapter.setCurrentEffect(this);
             mEffectContentWrapper.setAdapter(mEffectContentAdapter);
 
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(800, 600);
             lp.gravity = Gravity.CENTER;
-            mDrawingWrapper.addView(mEffectContentWrapper, lp);
+//            mDrawingWrapper.addView(mEffectContentWrapper, lp);
+            this.addView(mEffectContentWrapper, new LayoutParams(800, 500));
             invalidate();
         }
     }
@@ -430,7 +448,11 @@ public class PaintView extends RelativeLayout {
                         break;
                     }
                 drawingView.setEraser(eraserEffect.getPaint());
-            } else if(newEffect instanceof WallPaperEffects) {
+            } else if(newEffect instanceof IStickerEffect) {
+                openEffectContent();
+            }
+            else if(newEffect instanceof ISingleWallPaperEffect
+                    || newEffect instanceof IColorWallPaperEffect || newEffect instanceof IMultipleWallPaperEffect) {
                 openEffectContent();
             }
 

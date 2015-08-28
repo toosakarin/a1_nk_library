@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         class="com.fuhu.konnect.library.view.PaintView"
         android:id="@+id/mail_page_paintView"
-        android:background="#34e553"
+        android:background="#277777"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

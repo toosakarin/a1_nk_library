@@ -3,12 +3,15 @@ package com.fuhu.konnect;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fuhu.konnect.library.mail.effect.Effect;
 import com.fuhu.konnect.library.mail.effect.EffectGroup;
+import com.fuhu.konnect.library.mail.effect.IColorWallPaperEffect;
+import com.fuhu.konnect.library.mail.effect.IMultipleWallPaperEffect;
 import com.fuhu.konnect.library.mail.effect.IStickerEffect;
 import com.fuhu.konnect.library.view.PaintView;
 import com.fuhu.konnect.mail.MailEffectButtonWidget;
@@ -65,6 +68,8 @@ public class MailFragment extends Fragment {
         //Sets adapter to PaintView for showing sub effects
         mSubEffectAdapter = new MySubEffectAdapter();
         mPaintView.setAdapter(mSubEffectAdapter);
+        mEffectContentAdapter = new MyEffectContentAdapter();
+        mPaintView.setEffectContentAdapter(mEffectContentAdapter);
 
 
     }
@@ -118,17 +123,34 @@ public class MailFragment extends Fragment {
         public void onBindViewHolder(Effect currentEffect, RecyclerView.ViewHolder holder, int position) {
 
             if(currentEffect instanceof IStickerEffect) {
-
+                MailStickerWidget v = (MailStickerWidget) holder.itemView;
+                int srcId = ((IStickerEffect) currentEffect).getStickerResId().get(position);
+                v.setImage(srcId);
             }
-            else {
-
+            else if(currentEffect instanceof IMultipleWallPaperEffect) {
+                MailWallpaperWidget v = (MailWallpaperWidget) holder.itemView;
+                Pair<Integer, Integer> srcId = ((IMultipleWallPaperEffect) currentEffect).getWallPaperResId().get(position);
+                v.setImage(srcId.first, srcId.second, -1);
+            }
+            else if(currentEffect instanceof IColorWallPaperEffect) {
+                MailWallpaperWidget v = (MailWallpaperWidget) holder.itemView;
+                int srcId = ((IColorWallPaperEffect) currentEffect).getWallPaperResId().get(position);
+                v.setImage(-1, -1, srcId);
             }
 
         }
 
         @Override
         public int getItemCount(Effect currentEffect) {
-            return 0;
+            int rtn = 0;
+            if(currentEffect instanceof IStickerEffect)
+                rtn = ((IStickerEffect) currentEffect).getStickerResId().size();
+            else if(currentEffect instanceof IMultipleWallPaperEffect)
+                rtn = ((IMultipleWallPaperEffect) currentEffect).getWallPaperResId().size();
+            else if(currentEffect instanceof IColorWallPaperEffect)
+                rtn = ((IColorWallPaperEffect) currentEffect).getWallPaperResId().size();
+
+            return rtn;
         }
     }
 

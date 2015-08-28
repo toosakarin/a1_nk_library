@@ -31,7 +31,7 @@ public class StickerEffectF extends IStickerEffect {
 		
 		if(m_StickerList == null)
 		{
-			m_StickerList = new ArrayList<Integer>();
+			m_StickerList = new ArrayList<>();
 			m_StickerList.add(R.drawable.sticker_f_01);
 			m_StickerList.add(R.drawable.sticker_f_02);
 			m_StickerList.add(R.drawable.sticker_f_03);
