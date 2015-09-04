@@ -2,6 +2,7 @@ package com.fuhu.konnect.mail;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ public class MailWallpaperWidget extends RelativeLayout {
 	private int mWallpaperImageResId;
 	private int mWallpaperColorId;
 
+    private OnClickListener mOnClickListener;
 
 
 
@@ -38,6 +40,10 @@ public class MailWallpaperWidget extends RelativeLayout {
 		mThumbView = m_BackgroundContainer.findViewById(R.id.mail_wallpaper_top_image);
 
 	}
+
+    public void setOnClickListener(OnClickListener listener) {
+        this.mOnClickListener = listener;
+    }
 	
 	public void setImage(int thumbImageRes, int imageRes, int colorId)
 	{
@@ -56,12 +62,20 @@ public class MailWallpaperWidget extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 int src = (mWallpaperColorId > 0) ? mWallpaperColorId : mWallpaperImageResId;
-
                 Log.e(TAG, "wallpaper src=" + src + " is clicked!");
+                if(mOnClickListener != null)
+                    mOnClickListener.onClick(MailWallpaperWidget.this);
             }
         });
 	}
 
+    public Bitmap getImage() {
+        Bitmap rtn = null;
+
+
+
+        return rtn;
+    }
 
 	
 }

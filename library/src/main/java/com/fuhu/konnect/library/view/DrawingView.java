@@ -12,163 +12,182 @@ import android.view.View;
 
 public class DrawingView extends View {
 
-    private static int STROKE_WIDTH_DEFAULT = 7;
-
-    private boolean mIsEraserMode;
-    private boolean mIsEditable;
-
-    private int mWidth;
-    private int mHeight;
-    private Path mDrawingPath;
-	private Paint mBgPaint;
-	private Paint mDrawingPaint;
-	private Bitmap mBgBitmap;
-	private Bitmap mStickerBitmap;
-	private Canvas mPencilCanvas;
-	private Canvas mStickerCanvas; //no need?
-
-
-	private boolean		isCleanAll; //no need?
-
-
-    public DrawingView(Context context) {
-        super(context);
-        init();
-    }
+	private Paint mBitmapPaint;
+	private Paint mPaint;
+	private Bitmap mBitmap;
+	private Bitmap mBitmap_sticker;
+	Canvas mCanvas_pencil;
+	Canvas mCanvas_sticker;
+	private Path mPath;
+	private boolean 	m_IsEraser;
+	private float 		strokeWidth;
+	private boolean		isCleanAll;
+	private int			viewWidth;
+	private int  		viewHight;
+	private boolean     m_IsEditable;
 
 	public DrawingView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
+		// TODO Auto-generated constructor stub
+		mPaint = new Paint();
+		mPath = new Path();
+		mBitmapPaint = new Paint(Paint.DITHER_FLAG);
+		mPaint.setStrokeWidth(7);
 	}
 
-    private void init() {
-        mDrawingPaint = new Paint();
-        mDrawingPaint.setStrokeWidth(STROKE_WIDTH_DEFAULT);
-        mBgPaint = new Paint(Paint.DITHER_FLAG);
-        mDrawingPath = new Path();
-    }
-
-    private void reset() {
-        mBgBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-        mPencilCanvas = new Canvas(mBgBitmap);
-
-        mStickerBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-        mStickerCanvas = new Canvas(mStickerBitmap);
-
-        isCleanAll = true;
-        mDrawingPath.reset();
-    }
-
 	@Override
-	protected void onSizeChanged(int w, int h, int oldW, int oldH) {
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		//Log.i("gary", "onSizeChanged !!");
-        Log.e("ddd", "w=" + w + " h=" + h);
-		mWidth = w;
-		mHeight = h;
-		reset();
+		viewWidth = w;
+		viewHight = h;
+		mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+		mCanvas_pencil = new Canvas(mBitmap);
+		
+		mBitmap_sticker = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+		mCanvas_sticker = new Canvas(mBitmap_sticker);
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 
-		if(mBgBitmap != null && isCleanAll == false){
-			canvas.drawBitmap(mBgBitmap, 0, 0, mBgPaint);
+//		if(mBitmap != null && isCleanAll == false){
+			canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 
-			canvas.drawPath(mDrawingPath, mDrawingPaint);
+			canvas.drawPath(mPath, mPaint);
 			
-			//Draws sticker on the canvas
-			canvas.drawBitmap(mStickerBitmap, 0, 0, mBgPaint);
-		}
+			// show sticker in the canvas
+			canvas.drawBitmap(mBitmap_sticker, 0, 0, mBitmapPaint);
+//		}
 		
+		// end drawing path
 	}
 	
 	protected Bitmap getDrawingBitmap(){
-		return mBgBitmap;
+		
+		return mBitmap;
 	}
 
-	private float mFromX, mFromY;
+	private float mX, mY;
 	private static final float TOUCH_TOLERANCE = 4;
 
-	private void startDrawing(float startX, float startY) {
-		mDrawingPath.reset();
-		mDrawingPath.moveTo(startX, startY);
-		mFromX = startX;
-		mFromY = startY;
+	private void touch_start(float x, float y) {
+		mPath.reset();
+		mPath.moveTo(x, y);
+		mX = x;
+		mY = y;
 	}
 
-	private void doDrawing(float toX, float toY) {
-		float dx = Math.abs(toX - mFromX);
-		float dy = Math.abs(toY - mFromY);
-		if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-			mDrawingPath.quadTo(mFromX, mFromY, (toX + mFromX) / 2, (toY + mFromY) / 2);
-			if (mIsEraserMode == true) {
-				mDrawingPath.lineTo(mFromX, mFromY);
+	private void touch_move(float x, float y) {
+		float dx = Math.abs(x - mX);
+		float dy = Math.abs(y - mY);
+//		if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
+			mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
+			if (m_IsEraser == true) {
+				mPath.lineTo(mX, mY);
 				// commit the path to our offscreen
-				mPencilCanvas.drawPath(mDrawingPath, mDrawingPaint);
-				mDrawingPath.reset();
-				mDrawingPath.moveTo(mFromX, mFromY);
+				mCanvas_pencil.drawPath(mPath, mPaint);
+				mPath.reset();
+				mPath.moveTo(mX, mY);
 			}
-			mFromX = toX;
-			mFromY = toY;
-		}
+			mX = x;
+			mY = y;
+//		}
+        Log.d("DDD", "mX=" + mX + " mY=" + mY + " x=" + x + " y=" + y);
 	}
 
-	private void stopDrawing() {
-		mPencilCanvas.drawPoint(mFromX, mFromY, mDrawingPaint);
-		if (mIsEraserMode == false) {
-			mDrawingPath.lineTo(mFromX, mFromY);
+	private void touch_up() {
+		mCanvas_pencil.drawPoint(mX, mY, mPaint);
+		if (m_IsEraser == false) {
+			mPath.lineTo(mX, mY);
 			// commit the path to our offscreen
-			mPencilCanvas.drawPath(mDrawingPath, mDrawingPaint);
+			mCanvas_pencil.drawPath(mPath, mPaint);
 		}
 
 		// kill this so we don't double draw
-		mDrawingPath.reset();
+		mPath.reset();
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-
-        if(!mIsEditable)
-            return false;
-
+		
+//		if(DreamWorkDrawing.isColoringDrawing == true){
+//			return true;
+//		}
+		
 		float x = event.getX();
 		float y = event.getY();
+		
+		if(!m_IsEditable){
+			return false;
+		}
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			if(isCleanAll == true){
 				isCleanAll = false;
 			}
-			startDrawing(x, y);
+			touch_start(x, y);
+			invalidate();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			doDrawing(x, y);
+			touch_move(x, y);
+			invalidate();
 			break;
 		case MotionEvent.ACTION_UP:
-			stopDrawing();
+			touch_up();
+			invalidate();
 			break;
 		}
-        invalidate();
-
 		return true;
 	}
 
+	/*
+	public void setPencil() {
+		m_IsEraser = false;
+		mPaint.setXfermode(null);
+		mPaint.setAlpha(0xFF);
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeJoin(Paint.Join.ROUND);
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
+
+		// for drawing path
+		mPaint.setColor(0xff3b3232);
+	}
+*/
+	/*
+	public void setEraser() {
+		m_IsEraser = true;
+		mPaint.setXfermode(null);
+		mPaint.setAlpha(0x00);
+		mPaint.setColor(Color.TRANSPARENT);
+		mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+	}
+	*/
+	
 	public void setEditable(boolean isEditable){
-		this.mIsEditable = isEditable;
+		this.m_IsEditable = isEditable;
 	}
 	
-	public void setStrokeWidth(float w){
-		mDrawingPaint.setStrokeWidth(w);
+	public void changeStrokeWidth(float w){
+		mPaint.setStrokeWidth(w);
+		strokeWidth = w;
 	}
 	
 	public void setPaintColor(int color){
-		mDrawingPaint.setColor(color);
+		mPaint.setColor(color);
 	}
 	
 	public void cleanAllCanvas(){
-        isCleanAll = true;
-
-        reset();
+		mBitmap = Bitmap.createBitmap(viewWidth, viewHight, Bitmap.Config.ARGB_8888);
+		mCanvas_pencil = new Canvas(mBitmap);
+		
+		mBitmap_sticker = Bitmap.createBitmap(viewWidth, viewHight,
+                Bitmap.Config.ARGB_8888);
+		mCanvas_sticker = new Canvas(mBitmap_sticker);
+		
+		isCleanAll = true;
+		mPath.reset();
 		invalidate();
 	}
 
@@ -176,13 +195,13 @@ public class DrawingView extends View {
 		this.isCleanAll = isCleanAll;
 	}
 
-	public void setPaint(Paint paint) {
-		mIsEraserMode = false;
-		this.mDrawingPaint = paint;
+	public void setPaint(Paint paint)
+	{
+		m_IsEraser = false;
+		this.mPaint = paint;
 	}
-
 	public void setEraser(Paint paint) {
-		mIsEraserMode = true;
-		this.mDrawingPaint = paint;
+		m_IsEraser = true;
+		this.mPaint = paint;
 	}
 }

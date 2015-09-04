@@ -2,7 +2,7 @@ package com.fuhu.konnect.library.mail.effect;
 
 import android.graphics.Paint;
 
-public abstract class IPaintBoldEffect extends IPaintEffect{
+public abstract class IPaintBoldEffect extends IPaintEffect {
 	
 	@Override
 	public Paint getPaint()

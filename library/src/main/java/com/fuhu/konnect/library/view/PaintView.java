@@ -1,6 +1,7 @@
 package com.fuhu.konnect.library.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,21 +14,26 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.fuhu.konnect.library.Debug;
 import com.fuhu.konnect.library.mail.EffectCtrl;
 import com.fuhu.konnect.library.mail.OnEffectUpdateListener;
+import com.fuhu.konnect.library.mail.StickerCtrl;
 import com.fuhu.konnect.library.mail.effect.Effect;
 import com.fuhu.konnect.library.mail.effect.EffectGroup;
 import com.fuhu.konnect.library.mail.effect.EraserEffects;
 import com.fuhu.konnect.library.mail.effect.IColorWallPaperEffect;
 import com.fuhu.konnect.library.mail.effect.IEraserEffect;
+import com.fuhu.konnect.library.mail.effect.IEraserEffectAll;
 import com.fuhu.konnect.library.mail.effect.IMultipleWallPaperEffect;
 import com.fuhu.konnect.library.mail.effect.IPaintEffect;
 import com.fuhu.konnect.library.mail.effect.ISingleWallPaperEffect;
 import com.fuhu.konnect.library.mail.effect.IStickerEffect;
+import com.fuhu.konnect.library.mail.effect.NoneEffect;
 import com.fuhu.konnect.library.mail.effect.PaintEffects;
 import com.fuhu.konnect.library.utility.GenerateIntID;
 
@@ -51,6 +57,8 @@ public class PaintView extends RelativeLayout {
 
     private RelativeLayout mEffectToolbar;
 
+    private ImageButton mBackEffectButton;
+
     /**
      * The tool bar is a list to show the effect of drawing email
      */
@@ -61,7 +69,7 @@ public class PaintView extends RelativeLayout {
 
 //    private RecyclerView mContentListWrapper;
     private RecyclerView mSubEffectListWrapper;
-    private SubEffectAdapter mSubEffectAdapter;
+//    private SubEffectAdapter mSubEffectAdapter;
 
     private RecyclerView mEffectContentWrapper;
     private EffectContentAdapter mEffectContentAdapter;
@@ -76,8 +84,13 @@ public class PaintView extends RelativeLayout {
 
     private EffectCtrl mEffectCtrl;
 
-    private SubEffectAdapter mAdapter;
+    private SubEffectAdapter mSubEffectAdapter;
 
+
+    private int mEffectContentWrapperWidth;
+    private int mEffectContentWrapperHeight;
+
+    private StickerCtrl mStickerCtrl;
 
     /**
      * For bundling the effect and the view which indicating the effect and to show on the screen
@@ -119,20 +132,43 @@ public class PaintView extends RelativeLayout {
         //Creates the default EffectCtrl instance
         mEffectCtrl = new DefaultEffectCtrl();
 
+        //
+        mStickerCtrl = new DefaultStickerCtrl();
+
+
         mMainEffectViewList = new ArrayList<>();
 
         mEffectToolbar = new RelativeLayout(ctx);
+        mBackEffectButton = new ImageButton(ctx);
         mDrawingWrapper = new FrameLayout(ctx);
-        mDrawingView = new DrawingView(ctx);
+        mDrawingView = new DrawingView(ctx, null); //jack
         mMainEffectScroller = new ScrollView(ctx);
         mMainEffectWrapper = new LinearLayout(ctx);
         mSubEffectListWrapper = new RecyclerView(ctx);
+        mEffectContentWrapper = new RecyclerView(getContext());
 
         mMainEffectWrapper.setOrientation(LinearLayout.VERTICAL);
 
-        LinearLayoutManager lManager = new LinearLayoutManager(getContext());
-        mSubEffectListWrapper.setLayoutManager(lManager);
+        LinearLayoutManager rmSubEffect = new LinearLayoutManager(getContext());
+        mSubEffectListWrapper.setLayoutManager(rmSubEffect);
         mSubEffectListWrapper.setVisibility(View.GONE);
+
+        GridLayoutManager rmEffectContent = new GridLayoutManager(getContext(), 2);
+        rmEffectContent.setOrientation(GridLayoutManager.HORIZONTAL);
+        mEffectContentWrapper.setLayoutManager(rmEffectContent);
+        mEffectContentWrapper.setVisibility(View.GONE);
+
+        mBackEffectButton.setVisibility(View.INVISIBLE);
+        mBackEffectButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchEffectToolbar(false);
+            }
+        });
+
+        /**
+         * Sets layout params
+         */
 
         int subjectScrollerId = 0;
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -141,10 +177,6 @@ public class PaintView extends RelativeLayout {
             subjectScrollerId = View.generateViewId();
 //        mMainEffectScroller.setId(subjectScrollerId);
         mEffectToolbar.setId(subjectScrollerId);
-
-        /**
-         * Sets layout params
-         */
 
         //Adds main effect wrapper into scroller
         ScrollView.LayoutParams mainEffectWrapperLp = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
@@ -164,41 +196,101 @@ public class PaintView extends RelativeLayout {
         RelativeLayout.LayoutParams effectToolbarLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         this.addView(mEffectToolbar, effectToolbarLp);
 
-
         RelativeLayout.LayoutParams drawingViewLp = new LayoutParams(LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 //        drawingViewLp.addRule(RIGHT_OF, subjectScrollerId);
 //        this.addView(mDrawingView, drawingViewLp);
         mDrawingWrapper.addView(mDrawingView,drawingViewLp);
 
+        //Adds the effect content into the DrawingWrapper
+        mDrawingWrapper.addView(mEffectContentWrapper);
+
+        //Adds the default sticker wrapper into the DrawingWrapper
+        setStickerCtrl(mStickerCtrl);
+
         RelativeLayout.LayoutParams drawingWrapperLp = new LayoutParams(LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         drawingWrapperLp.addRule(RIGHT_OF, subjectScrollerId);
         this.addView(mDrawingWrapper, drawingWrapperLp);
 
+        //The switch button for sub effect back to main effect
+        RelativeLayout.LayoutParams backEffectBtnLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        backEffectBtnLp.addRule(RIGHT_OF, subjectScrollerId);
+        backEffectBtnLp.addRule(ALIGN_PARENT_TOP);
+        this.addView(mBackEffectButton, backEffectBtnLp);
+
+
         /**
          * for testing
          */
-        mMainEffectScroller.setBackgroundColor(Color.BLUE);
-        mSubEffectListWrapper.setBackgroundColor(Color.LTGRAY);
-        mDrawingView.setBackgroundColor(Color.RED);
-
+        if(Debug.IS_DEBUG) {
+            mMainEffectScroller.setBackgroundColor(Color.BLUE);
+            mSubEffectListWrapper.setBackgroundColor(Color.LTGRAY);
+            mDrawingView.setBackgroundColor(Color.WHITE);
+            mEffectContentWrapper.setBackgroundColor(Color.YELLOW);
+        }
 
         this.invalidate();
     }
 
-    public void setAdapter(SubEffectAdapter adapter) {
-        mAdapter = adapter;
-        mAdapter.mPaintView = this;
-        mSubEffectListWrapper.setAdapter(mAdapter);
+    public void setBackEffectButtonImage(Bitmap image) {
+        if(mBackEffectButton != null)
+            mBackEffectButton.setImageBitmap(image);
+    }
+
+    public ImageButton getBackEffectButton() {
+        return mBackEffectButton;
+    }
+
+    public void setSubEffectAdapter(SubEffectAdapter adapter) {
+        mSubEffectAdapter = adapter;
+        mSubEffectAdapter.mPaintView = this;
+        mSubEffectListWrapper.setAdapter(mSubEffectAdapter);
     }
 
     public void setEffectContentAdapter(EffectContentAdapter adapter) {
         mEffectContentAdapter = adapter;
 //        mEffectContentAdapter.setCurrentEffect(this);
-//        mEffectContentWrapper.setAdapter(mEffectContentAdapter);
+        mEffectContentAdapter.setPaintView(this);
+        mEffectContentWrapper.setAdapter(mEffectContentAdapter);
     }
 
     public void setEffectCtl(EffectCtrl ctrl) {
         mEffectCtrl = ctrl;
+    }
+
+    public void setStickerCtrl(StickerCtrl ctrl) {
+        if(ctrl == null) return;
+        if(ctrl.getStickerWrapper() == null) return;
+        if(mDrawingWrapper == null) return;
+
+        mStickerCtrl = ctrl;
+
+        /**
+         * Adds the sticker wrapper which providing from StickerCtrl into the DrawingView
+         */
+        FrameLayout.LayoutParams lp =
+                new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        View stickerWrapper = ctrl.getStickerWrapper();
+        mDrawingWrapper.addView(stickerWrapper, lp);
+        if(Debug.IS_DEBUG)
+            stickerWrapper.setBackgroundColor(Color.argb(90, 0, 0, 0));
+
+        invalidate();
+    }
+
+    public StickerCtrl getStickerCtrl() {
+        return mStickerCtrl;
+    }
+
+    public void setEffectContentSize(int w, int h) {
+        mEffectContentWrapperWidth = w;
+        mEffectContentWrapperHeight = h;
+        if((mEffectContentWrapperWidth & mEffectContentWrapperHeight) > 0) {
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mEffectContentWrapper.getLayoutParams();
+            lp.width = mEffectContentWrapperWidth;
+            lp.height = mEffectContentWrapperHeight;
+            lp.gravity = Gravity.CENTER;
+            mEffectContentWrapper.setLayoutParams(lp);
+        }
     }
 
     public ViewGroup getDrawingWrapper() {
@@ -235,7 +327,7 @@ public class PaintView extends RelativeLayout {
 
 
                     //Shows the sub effect toolbar
-                    mAdapter.notifyDataSetChanged();
+                    mSubEffectAdapter.notifyDataSetChanged();
                     switchEffectToolbar(true);
                 }
                 return true;
@@ -243,29 +335,6 @@ public class PaintView extends RelativeLayout {
         });
     }
 
-//    private void setViewClick(View v) {
-//        v.setOnTouchListener(new OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                if(event.getAction() == MotionEvent.ACTION_UP) {
-//                    Effect newEffect = null;
-//                    if(v instanceof com.fuhu.konnect.library.mail.view.EffectView)
-//                        newEffect = ((EffectView) v).getEffect();
-//
-//                    /**
-//                     * update
-//                     */
-//
-//
-//                    if(mEffectCtrl != null)
-//                        mEffectCtrl.applyEffect(PaintView.this, newEffect);
-//                }
-//
-//                return false;
-//            }
-//        });
-//    }
     private void setSubEffectViewOnClick(View v, final Effect e) {
         v.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -276,8 +345,6 @@ public class PaintView extends RelativeLayout {
                     if(mEffectCtrl != null)
                         mEffectCtrl.applyEffect(PaintView.this, newEffect);
 
-                    //Shows effect content wrapper
-                    openEffectContent();
                 }
 
                 return true;
@@ -292,36 +359,57 @@ public class PaintView extends RelativeLayout {
 
             mMainEffectScroller.setVisibility(View.GONE);
             mSubEffectListWrapper.setVisibility(View.VISIBLE);
+            mBackEffectButton.setVisibility(View.VISIBLE);
         }
         else {
             mMainEffectScroller.setVisibility(View.VISIBLE);
             mSubEffectListWrapper.setVisibility(View.GONE);
+            mBackEffectButton.setVisibility(View.INVISIBLE);
         }
     }
 
-    private void openEffectContent() {
+
+    public void openEffectContent(Effect effect) {
+//        if(mEffectContentAdapter == null) return;
+//        mEffectContentAdapter.setCurrentEffect(this);
+//
+//        if(mEffectContentWrapper == null) {
+//            mEffectContentWrapper = new RecyclerView(getContext());
+//            GridLayoutManager lManager = new GridLayoutManager(getContext(), 2);
+//            lManager.setOrientation(GridLayoutManager.HORIZONTAL);
+//            mEffectContentWrapper.setLayoutManager(lManager);
+//            mEffectContentWrapper.setSubEffectAdapter(mEffectContentAdapter);
+//
+//            if((mEffectContentWrapperWidth & mEffectContentWrapperHeight) == 0) {
+//                mDrawingWrapper.addView(mEffectContentWrapper);
+//            }
+//            else {
+//                FrameLayout.LayoutParams lp =
+//                        new FrameLayout.LayoutParams(mEffectContentWrapperWidth, mEffectContentWrapperHeight);
+//                lp.gravity = Gravity.CENTER;
+//                mDrawingWrapper.addView(mEffectContentWrapper, lp);
+//            }
+//            invalidate();
+//        }
+        if(effect == null) return;
         if(mEffectContentAdapter == null) return;
-        if(mEffectContentWrapper == null) {
-            mEffectContentWrapper = new RecyclerView(getContext());
-            GridLayoutManager lManager = new GridLayoutManager(getContext(), 2);
-            lManager.setOrientation(GridLayoutManager.HORIZONTAL);
-            mSubEffectListWrapper.setLayoutManager(lManager);
-            mEffectContentAdapter.setCurrentEffect(this);
-            mEffectContentWrapper.setAdapter(mEffectContentAdapter);
-
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(800, 600);
-            lp.gravity = Gravity.CENTER;
-//            mDrawingWrapper.addView(mEffectContentWrapper, lp);
-            this.addView(mEffectContentWrapper, new LayoutParams(800, 500));
-            invalidate();
-        }
+        if(mEffectContentWrapper == null) return;
+//        mEffectContentAdapter.setCurrentEffect(this);
+        mEffectContentAdapter.setCurrentEffect(effect);
+        mEffectContentWrapper.setVisibility(View.VISIBLE);
+        //Lets the effect content to the top of screen of the drawing wrapper
+        mDrawingWrapper.bringChildToFront(mEffectContentWrapper);
+        invalidate();
     }
 
-    private void closeEffectContent() {
+    public void closeEffectContent() {
+//        if(mEffectContentWrapper == null) return;
+//        mDrawingWrapper.removeView(mEffectContentWrapper);
+//        mEffectContentWrapper.removeAllViews();
+//        mEffectContentWrapper = null;
         if(mEffectContentWrapper == null) return;
-        mDrawingWrapper.removeView(mEffectContentWrapper);
         mEffectContentWrapper.removeAllViews();
-        mEffectContentWrapper = null;
+        mEffectContentWrapper.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -382,6 +470,14 @@ public class PaintView extends RelativeLayout {
                 mCurrentEffect = mPaintView.mEffectCtrl.getCurrentEffect();
         }
 
+        private void setPaintView(PaintView pv) {
+            mPaintView = pv;
+        }
+
+        private void setCurrentEffect(Effect effect) {
+            mCurrentEffect = effect;
+        }
+
         @Override
         public VH onCreateViewHolder(ViewGroup parent, int viewType) {
             return onCreateViewHolder(mCurrentEffect, parent, viewType);
@@ -395,7 +491,6 @@ public class PaintView extends RelativeLayout {
 
         @Override
         public int getItemCount() {
-            if(mPaintView.mEffectCtrl == null) return 0;
             return getItemCount(mCurrentEffect);
         }
     }
@@ -416,10 +511,14 @@ public class PaintView extends RelativeLayout {
             if(mCurrentEffect != null)
                 mCurrentEffect.cancel();
 
+            /**
+             * Pre-process of effect update
+             */
             closeEffectContent();
 
+
             /**
-             * Assigns the new effect
+             * Assigns a new effect
              */
             if(paintView == null) return;
 
@@ -435,9 +534,15 @@ public class PaintView extends RelativeLayout {
             } else if(newEffect instanceof IEraserEffect) {
                 drawingView.setEraser(((IEraserEffect) newEffect).getPaint());
                 drawingView.setEditable(true);
-            } else if(newEffect instanceof PaintEffects) {
+            } else if(newEffect instanceof IEraserEffectAll) {
+
+
+
+            }
+            else if(newEffect instanceof PaintEffects) {
                 IPaintEffect paintEffect = (IPaintEffect) ((EffectGroup) newEffect).getSubEffects().get(0);
                 drawingView.setPaint(paintEffect.getPaint());
+                drawingView.setEditable(true);
             } else if(newEffect instanceof EraserEffects) {
                 // auto select the second effect
                 IEraserEffect eraserEffect = null;
@@ -449,12 +554,15 @@ public class PaintView extends RelativeLayout {
                     }
                 drawingView.setEraser(eraserEffect.getPaint());
             } else if(newEffect instanceof IStickerEffect) {
-                openEffectContent();
+                openEffectContent(newEffect);
             }
             else if(newEffect instanceof ISingleWallPaperEffect
                     || newEffect instanceof IColorWallPaperEffect || newEffect instanceof IMultipleWallPaperEffect) {
-                openEffectContent();
+                openEffectContent(newEffect);
+            } else if(newEffect instanceof NoneEffect) {
+
             }
+
 
 
             if(mOnEffectUpdateListener != null)
@@ -463,5 +571,152 @@ public class PaintView extends RelativeLayout {
             mCurrentEffect = newEffect;
         }
     }
+
+    /**
+     * This class is an instance of StickerCtrl
+     */
+    private class DefaultStickerCtrl implements StickerCtrl<StickerView> {
+
+        private FrameLayout mStickerWrapper;
+
+        private StickerView.OnFocusChangeListener mOnStickerFocusListener = new StickerView.OnFocusChangeListener() {
+            @Override
+            public void onFocused(StickerView view) {
+                ArrayList<StickerView> views = getChildren(mStickerWrapper);
+                for(int i=0; i<views.size(); i++) {
+                    StickerView sv =  views.get(i);
+                    if(sv != view)
+                        sv.hideControl();
+                }
+            }
+        };
+
+        private StickerView.OnButtonClickListener mOnStickerButtonClickListener = new StickerView.OnButtonClickListener() {
+            @Override
+            public void onClick(StickerView view, int btn_code) {
+
+                switch (btn_code) {
+                    case StickerView.OnButtonClickListener.CONFIRM:
+                        break;
+                    case StickerView.OnButtonClickListener.REMOVE:
+                        removeSticker(view);
+                        break;
+                    case StickerView.OnButtonClickListener.RESIZE:
+                        //nothing to do
+                        break;
+                    case StickerView.OnButtonClickListener.ROTATE:
+                        //nothing to do
+                        break;
+                    case StickerView.OnButtonClickListener.MOVE_UP:
+                        moveUp(view);
+                        break;
+                    case StickerView.OnButtonClickListener.MOVE_DOWN:
+                        moveDown(view);
+                        break;
+                }
+
+            }
+        };
+
+        private DefaultStickerCtrl() {
+            mStickerWrapper = new FrameLayout(getContext());
+        }
+
+        private ArrayList<StickerView> getChildren(ViewGroup parent) {
+            if(parent == null) return null;
+
+            ArrayList<StickerView> rtn = new ArrayList<>();
+
+            int childCount = mStickerWrapper.getChildCount();
+            for(int i=0; i<childCount; i++) {
+                rtn.add((StickerView) mStickerWrapper.getChildAt(i));
+            }
+
+            return rtn;
+        }
+
+        private void setViews(ArrayList<StickerView> views) {
+            if(mStickerWrapper == null) return;
+            for(int i=0; i< views.size(); i++) {
+                mStickerWrapper.addView(views.get(i));
+            }
+            mStickerWrapper.invalidate();
+        }
+
+        private void resetViews(ArrayList<StickerView> views) {
+            mStickerWrapper.removeAllViews();
+            setViews(views);
+        }
+
+        @Override
+        public void setOnFocusChangeListener(StickerView.OnFocusChangeListener listener) {
+            mOnStickerFocusListener = listener;
+        }
+
+        @Override
+        public void setOnButtonClickListener(StickerView.OnButtonClickListener listener) {
+            mOnStickerButtonClickListener = listener;
+        }
+
+        @Override
+        public ViewGroup getStickerWrapper() {
+            return mStickerWrapper;
+        }
+
+        @Override
+        public void addSticker(StickerView v) {
+            if(mStickerWrapper == null) return;
+            v.setOnFocusChangeListener(mOnStickerFocusListener); //sets focus listener
+            v.setOnButtonClickListener(mOnStickerButtonClickListener);
+            mStickerWrapper.addView(v);
+        }
+
+        @Override
+        public void removeSticker(StickerView v) {
+            if(mStickerWrapper == null) return;
+            mStickerWrapper.removeView(v);
+        }
+
+        @Override
+        public void removeAllSticker() {
+            if(mStickerWrapper == null) return;
+            mStickerWrapper.removeAllViews();
+        }
+
+        @Override
+        public void moveUp(StickerView child) {
+            if(mStickerWrapper == null) return;
+            int index = mStickerWrapper.indexOfChild(child);
+            if(++index < mStickerWrapper.getChildCount())
+            move(index, child);
+        }
+
+        @Override
+        public void moveDown(StickerView child) {
+            if(mStickerWrapper == null) return;
+            int index = mStickerWrapper.indexOfChild(child);
+            if(--index >= 0)
+                move(index, child);
+        }
+
+        @Override
+        public void moveTo(int index, StickerView child) {
+            if(mStickerWrapper == null) return;
+            move(index, child);
+        }
+
+        private void move(int index, StickerView v) {
+            ArrayList<StickerView> childList = getChildren(mStickerWrapper);
+
+            //swap views
+            int _index = childList.indexOf(v);
+            StickerView _v = childList.get(index);
+            childList.set(index, v);
+            childList.set(_index, _v);
+
+            resetViews(childList);
+        }
+    }
+
 
 }

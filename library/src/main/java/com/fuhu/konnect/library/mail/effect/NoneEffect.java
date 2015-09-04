@@ -1,6 +1,6 @@
 package com.fuhu.konnect.library.mail.effect;
 
-public class NoneEffect implements Effect{
+public class NoneEffect implements Effect {
 
     @Override
     public void apply() {

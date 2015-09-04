@@ -17,6 +17,8 @@ import java.util.ArrayList;
 /**
  * Created by jacktseng on 2015/8/25.
  */
+
+@Deprecated
 public class EffectCtrlImpl implements EffectCtrl {
 
     private Effect mCurrentEffect;

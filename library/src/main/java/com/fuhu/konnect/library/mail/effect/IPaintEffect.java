@@ -2,7 +2,7 @@ package com.fuhu.konnect.library.mail.effect;
 
 import android.graphics.Paint;
 
-public abstract class IPaintEffect implements Effect{
+public abstract class IPaintEffect implements Effect {
 	
 	protected Paint paint = new Paint();
 

@@ -24,6 +24,8 @@ public class MailStickerWidget extends RelativeLayout {
 	private int m_ImageWidth;
 	private int m_ImageHeight;
 
+    private OnClickListener mOnClickListener;
+
 
 	public MailStickerWidget(Context context) {
 		this(context, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -31,7 +33,6 @@ public class MailStickerWidget extends RelativeLayout {
 
 	public MailStickerWidget(Context context, int imageWidth, int imageHeight) {
 		super(context, null);
-
 		this.m_Context = context;
 		this.m_ImageWidth = imageWidth;
 		this.m_ImageHeight = imageHeight;
@@ -42,8 +43,11 @@ public class MailStickerWidget extends RelativeLayout {
 
 		m_BackgroundContainer = (RelativeLayout)this.findViewById(R.id.mail_sticker_widget_background);
 		mStickerImageView = (ImageView)m_BackgroundContainer.findViewById(R.id.mail_sticker_top_image);
-
 	}
+
+    public void setOnClickListener(OnClickListener listener) {
+        this.mOnClickListener = listener;
+    }
 
 	public void setImage(int imageRes)
 	{
@@ -64,12 +68,22 @@ public class MailStickerWidget extends RelativeLayout {
 
                 @Override
                 public void onClick(View v) {
-                    Bitmap stickerBitmap = ((BitmapDrawable) mStickerImageView.getDrawable()).getBitmap();
-                    Log.e(TAG, "sticker is clicked");
+                    Log.i(TAG, "sticker is clicked");
+                    if(mOnClickListener != null)
+                        mOnClickListener.onClick(MailStickerWidget.this);
                 }
             });
 		}
 	}
+
+    public Bitmap getImage() {
+        Bitmap rtn = null;
+        if(mStickerImageView != null)
+            rtn = ((BitmapDrawable) mStickerImageView.getDrawable()).getBitmap();
+
+        return rtn;
+    }
+
 
 
 	

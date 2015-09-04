@@ -1,6 +1,9 @@
 package com.fuhu.konnect;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -13,11 +16,13 @@ import com.fuhu.konnect.library.mail.effect.EffectGroup;
 import com.fuhu.konnect.library.mail.effect.IColorWallPaperEffect;
 import com.fuhu.konnect.library.mail.effect.IMultipleWallPaperEffect;
 import com.fuhu.konnect.library.mail.effect.IStickerEffect;
+import com.fuhu.konnect.library.view.NabiStickerView;
 import com.fuhu.konnect.library.view.PaintView;
 import com.fuhu.konnect.mail.MailEffectButtonWidget;
 import com.fuhu.konnect.mail.MailStickerWidget;
 import com.fuhu.konnect.mail.MailWallpaperWidget;
 import com.fuhu.konnect.mail.effect.EffectManager;
+import com.fuhu.konnect.mail.effect.EraserEffect;
 import com.fuhu.konnect.mail.effect.PaintEffect;
 import com.fuhu.konnect.mail.effect.StickerEffect;
 import com.fuhu.konnect.mail.effect.WallPaperEffect;
@@ -37,6 +42,40 @@ public class MailFragment extends Fragment {
 
     private MyEffectContentAdapter mEffectContentAdapter;
 
+    private View.OnClickListener mOnStickerBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(mPaintView != null)
+                mPaintView.closeEffectContent();
+
+            if(view instanceof MailStickerWidget) {
+                Bitmap bmp = ((MailStickerWidget) view).getImage();
+//                StickerView sv = new StickerView(getActivity(), bmp);
+                NabiStickerView sv = new NabiStickerView(getActivity(), bmp);
+                sv.setCheckButtonImage(mIconCheck);
+                sv.setCrossButtonImage(mIconCross);
+                sv.setResizeButtonImage(mIconResize);
+                sv.setRotateButtonImage(mIconRotate);
+                mPaintView.getStickerCtrl().addSticker(sv);
+            }
+        }
+    };
+
+//    private View.OnClickListener mOnWallPaperBtnClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            if(mPaintView != null)
+//                mPaintView.closeEffectContent();
+//
+//            if(view instanceof MailWallpaperWidget) {
+//                MailWallpaperWidget mww = (MailWallpaperWidget) view;
+//                mww.
+//            }
+//        }
+//    };
+
+    private Bitmap mIconCheck, mIconCross, mIconResize, mIconRotate;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,24 +93,41 @@ public class MailFragment extends Fragment {
     private void doMail() {
         mEffectManager =  EffectManager.getInstance();
 
+        //Loads the source for sticker button icon
+        Context ctx = getActivity();
+        mIconCheck = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.stickerwidget_check);
+        mIconCross = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.stickerwidget_cross);
+        mIconResize = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.stickerwidget_resize);
+        mIconRotate = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.stickerwidget_rotate);
+
         //Adds the main effect into PaintView
-        MailEffectButtonWidget paintEffectButton = new MailEffectButtonWidget(getActivity());
-        MailEffectButtonWidget stickerEffectButton = new MailEffectButtonWidget(getActivity());
-        MailEffectButtonWidget wallEffectButton = new MailEffectButtonWidget(getActivity());
+        MailEffectButtonWidget paintEffectButton = new MailEffectButtonWidget(ctx);
+        MailEffectButtonWidget stickerEffectButton = new MailEffectButtonWidget(ctx);
+        MailEffectButtonWidget wallEffectButton = new MailEffectButtonWidget(ctx);
+        MailEffectButtonWidget eraserEffectButton = new MailEffectButtonWidget(ctx);
         paintEffectButton.setEffect(new PaintEffect());
         stickerEffectButton.setEffect(new StickerEffect());
         wallEffectButton.setEffect(new WallPaperEffect());
+        eraserEffectButton.setEffect(new EraserEffect());
         mPaintView.addMainEffect(paintEffectButton, (EffectGroup) paintEffectButton.getEffect());
         mPaintView.addMainEffect(stickerEffectButton, (EffectGroup) stickerEffectButton.getEffect());
         mPaintView.addMainEffect(wallEffectButton, (EffectGroup) wallEffectButton.getEffect());
+        mPaintView.addMainEffect(eraserEffectButton, (EffectGroup) eraserEffectButton.getEffect());
+
 
         //Sets adapter to PaintView for showing sub effects
         mSubEffectAdapter = new MySubEffectAdapter();
-        mPaintView.setAdapter(mSubEffectAdapter);
+        mPaintView.setSubEffectAdapter(mSubEffectAdapter);
         mEffectContentAdapter = new MyEffectContentAdapter();
         mPaintView.setEffectContentAdapter(mEffectContentAdapter);
 
-
+        mPaintView.setEffectContentSize(1050, 600);
+        mPaintView.getBackEffectButton().setBackground(null);
+        mPaintView.getBackEffectButton().setImageResource(R.drawable.mail_btn_back);
+        ViewGroup.LayoutParams lp = mPaintView.getBackEffectButton().getLayoutParams();
+        lp.width = 111;
+        lp.height = 110;
+        mPaintView.getBackEffectButton().setLayoutParams(lp);
     }
 
     private class MySubEffectVH extends RecyclerView.ViewHolder {
@@ -111,10 +167,15 @@ public class MailFragment extends Fragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(Effect currentEffect, ViewGroup parent, int viewType) {
             View v;
-            if(currentEffect instanceof IStickerEffect)
+            if(currentEffect instanceof IStickerEffect) {
                 v = new MailStickerWidget(getActivity());
-            else
+                v.setOnClickListener(mOnStickerBtnClickListener);
+            }
+            else {
                 v = new MailWallpaperWidget(getActivity());
+
+            }
+
 
             return new MyEffectContentVH(v);
         }
