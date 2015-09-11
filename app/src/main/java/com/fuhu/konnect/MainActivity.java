@@ -14,6 +14,7 @@ public class MainActivity extends FragmentActivity {
 
     Fragment mCurrentFrag;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,5 @@ public class MainActivity extends FragmentActivity {
 
         mCurrentFrag = fragment;
     }
-
 
 }

@@ -2,10 +2,10 @@ package com.fuhu.konnect.mail.effect;
 
 
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.Effect;
+import com.fuhu.konnect.library.paint.effect.IEraserEffectAll;
 
 
-public class EraserEffectAll implements Effect {
+public class EraserEffectAll extends IEraserEffectAll {
 
 	@Override
 	public void apply() {

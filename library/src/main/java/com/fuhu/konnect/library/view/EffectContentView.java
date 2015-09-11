@@ -9,26 +9,46 @@ import android.widget.RelativeLayout;
 /**
  * Created by jacktseng on 2015/9/4.
  */
-public class EffectContentView extends RelativeLayout {
+public abstract class EffectContentView extends RelativeLayout {
 
+    //Indicates which view is a real button of EffectContentView
     private View mButton;
 
+    /**
+     * PreOnClickListener is invoked before mButton's onClick when onClick event is dispatch by
+     * onTouchEvent.
+     */
+    private OnClickListener mPreOnClickListener;
 
-    protected interface OnEffectContentViewClickListener {
-        public void onClick(EffectContentView view);
+    /**
+     * Gets the content of this effect.
+     * </p>
+     * Note: This function is used to obtain the element of event content of sub effect, now just
+     * <br> focus to gets the sticker bitmap or background resource id.
+     *
+     * @return
+     */
+    public abstract Object getContent();
+
+    public EffectContentView(Context context, View btn) {
+        super(context);
+        mButton = (btn == null) ? this : btn;
     }
 
+    protected void setClickButton(View btn) {
+        mButton = btn;
+    }
 
-    public EffectContentView(Context context) {
-        super(context);
+    protected void setPreOnClickListener(OnClickListener listener) {
+        mPreOnClickListener = listener;
     }
 
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if(mButton == null) mButton = this;
         return true;
     }
 
     public boolean onTouchEvent(MotionEvent ev) {
-
         int x = (int) ev.getX();
         int y = (int) ev.getY();
 
@@ -38,21 +58,19 @@ public class EffectContentView extends RelativeLayout {
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_UP:
-                Rect rect = new Rect();
-                this.getHitRect(rect);
-                if(rect.contains(x,y))
-                    performClick();
-//                if(mButton != null) {
-//                    Rect rect = new Rect();
-//                    mButton.getHitRect(rect);
-//                    if(rect.contains(x, y)) {
-//                        mButton.performClick();
-//                    }
-//                }
+                if(mButton != this) {
+                    Rect rect = new Rect();
+                    mButton.getHitRect(rect);
+                    if(!rect.contains(x, y))
+                        break;
+                }
 
+                if(mPreOnClickListener != null)
+                    mPreOnClickListener.onClick(this);
+                if(mButton != null)
+                    mButton.performClick();
                 break;
         }
-
         return true;
     }
 

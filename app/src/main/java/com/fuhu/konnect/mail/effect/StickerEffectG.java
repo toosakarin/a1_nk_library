@@ -1,7 +1,7 @@
 package com.fuhu.konnect.mail.effect;
 
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.IStickerEffect;
+import com.fuhu.konnect.library.paint.effect.IStickerEffect;
 
 import java.util.ArrayList;
 

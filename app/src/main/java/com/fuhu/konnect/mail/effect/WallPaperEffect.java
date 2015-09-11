@@ -2,19 +2,18 @@ package com.fuhu.konnect.mail.effect;
 
 
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.Effect;
-import com.fuhu.konnect.library.mail.effect.EffectGroup;
+import com.fuhu.konnect.library.paint.effect.Effect;
+import com.fuhu.konnect.library.paint.effect.WallPaperEffects;
 
 import java.util.ArrayList;
 
-public class WallPaperEffect implements EffectGroup {
+public class WallPaperEffect extends WallPaperEffects {
 
     ArrayList<Effect> m_SubItems;
 
 	@Override
 	public void apply() {
 		// TODO Auto-generated method stub
-		
 	}
 
     @Override
@@ -32,7 +31,7 @@ public class WallPaperEffect implements EffectGroup {
 		if(m_SubItems == null)
 		{
 			m_SubItems = new ArrayList<Effect>();
-//			m_SubItems.add(new WallPaperEffectDefault());
+			m_SubItems.add(new WallPaperEffectDefault());
 			m_SubItems.add(new WallPaperColorEffect());
 			m_SubItems.add(new WallPaperSceneEffect());		
 //			m_SubItems.add(new WallPaperTextureEffect());

@@ -9,6 +9,13 @@
         <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/classes-3bf327c57deea925c4b86d941cb0f56138580b71.jar" />
     </item>
     <item
+        jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/libs/jackjack.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4edfead692c5f167751cbc9acc0ca39a2755ab72">
+        <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/jackjack-4beb7783fe44957c07adf9f5199b7859298204cf.jar" />
+    </item>
+    <item
         jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -40,7 +47,7 @@
         jar="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/exploded-aar/App1_NabiKonnect_Library/library/unspecified/classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="f249420a8f2efb6d8afb10d39ff0db92cdd39272">
+        sha1="51493ef90aab828d4d42e45aff63f251be3fa39e">
         <dex dex="/Users/jacktseng/Documents/ForGit/App1_NabiKonnect_Library/app/build/intermediates/pre-dexed/debug/classes-1556dd1cc1ea58ee4a2267804987c1181f709bb6.jar" />
     </item>
     <item

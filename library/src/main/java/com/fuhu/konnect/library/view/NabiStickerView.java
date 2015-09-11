@@ -21,6 +21,10 @@ public class NabiStickerView extends StickerView {
 
     private Bitmap mCheckImg, mCrossImg, mResizeImg, mRotateImg;
 
+    {
+        //Do not to show the remove button of StickerView on the screen
+        super.enableRemoveButton(false);
+    }
 
     public NabiStickerView(Context context) {
         super(context);
@@ -118,16 +122,20 @@ public class NabiStickerView extends StickerView {
 
         // ======
         // draws check button
-        float left = w / 2 + mButtonSpacing * mDensity;
-        float right = left + mButtonSide * mDensity;
-        mCheckButton.set(left, top, right, bottom);
-        canvas.drawBitmap(mCheckImg, null, mCheckButton, null);
+        if(mCheckImg != null) {
+            float left = w / 2 + mButtonSpacing * mDensity;
+            float right = left + mButtonSide * mDensity;
+            mCheckButton.set(left, top, right, bottom);
+            canvas.drawBitmap(mCheckImg, null, mCheckButton, null);
+        }
 
         // draws cross button
-        left = w / 2 - (mButtonSide + mButtonSpacing) * mDensity;
-        right = left + mButtonSide * mDensity;
-        mCrossButton.set(left, top, right, bottom);
-        canvas.drawBitmap(mCrossImg, null, mCrossButton, null);
+        if(mCrossImg != null) {
+            float left = w / 2 - (mButtonSide + mButtonSpacing) * mDensity;
+            float right = left + mButtonSide * mDensity;
+            mCrossButton.set(left, top, right, bottom);
+            canvas.drawBitmap(mCrossImg, null, mCrossButton, null);
+        }
         // ======
 
         refreshRectTouchArea(mCheckButton);
@@ -140,6 +148,8 @@ public class NabiStickerView extends StickerView {
      * @param canvas
      */
     private void drawCenterCrossButton(Canvas canvas) {
+        if(mCrossImg == null) return;
+
         float w = this.getWidth() * mCurrentScale;
         float h = this.getHeight() * mCurrentScale;
         float left = w / 2 - mButtonSide / 2 * mDensity;
@@ -167,14 +177,18 @@ public class NabiStickerView extends StickerView {
         // left = 0;
         float right = mButtonSide * mDensity;
 
-        mSideIcon.set(0, top, right, bottom);
-        canvas.drawBitmap(mResizeImg, null, mSideIcon, null);
+        if(mResizeImg != null) {
+            mSideIcon.set(0, top, right, bottom);
+            canvas.drawBitmap(mResizeImg, null, mSideIcon, null);
+        }
 
         // right side rotate icon
         // right = width
         float left = w - mButtonSide * mDensity;
-        mSideIcon.set(left, top, (int) w, bottom);
-        canvas.drawBitmap(mRotateImg, null, mSideIcon, null);
+        if(mRotateImg != null) {
+            mSideIcon.set(left, top, (int) w, bottom);
+            canvas.drawBitmap(mRotateImg, null, mSideIcon, null);
+        }
     }
 
     private void refreshRectTouchArea(RectF rect) {

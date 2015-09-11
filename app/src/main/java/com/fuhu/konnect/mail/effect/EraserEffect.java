@@ -1,19 +1,18 @@
 package com.fuhu.konnect.mail.effect;
 
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.Effect;
-import com.fuhu.konnect.library.mail.effect.EffectGroup;
+import com.fuhu.konnect.library.paint.effect.Effect;
+import com.fuhu.konnect.library.paint.effect.EraserEffects;
 
 import java.util.ArrayList;
 
-public class EraserEffect implements EffectGroup {
+public class EraserEffect extends EraserEffects {
 
     private ArrayList<Effect> m_SubItems;
 
 	@Override
 	public void apply() {
 		// TODO Auto-generated method stub
-		
 	}
 
     @Override

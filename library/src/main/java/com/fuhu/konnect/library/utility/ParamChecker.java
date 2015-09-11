@@ -1,10 +1,9 @@
 package com.fuhu.konnect.library.utility;
 
 /**
- * This class is a useful tool for params basic checking likes null point,
- * be 0 or empty value etc.
- *
- * Created by jacktseng on 2015/7/28.
+ * This class is a useful tool for params basic checking likes null point, be 0 or empty value etc.
+ * <p/>
+ * Author: Jack Tseng
  */
 public class ParamChecker {
 

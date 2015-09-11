@@ -65,6 +65,15 @@ public class MainFragment extends Fragment{
                 mActivity.switchFragment(new MailFragment());
             }
         });
+//        /**
+//         * Paint test
+//         */
+//        root.findViewById(R.id.main_btn_paint).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mActivity.switchFragment(new TestPaintFragment());
+//            }
+//        });
     }
 
 }

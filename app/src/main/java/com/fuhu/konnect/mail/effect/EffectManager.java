@@ -1,6 +1,6 @@
 package com.fuhu.konnect.mail.effect;
 
-import com.fuhu.konnect.library.mail.effect.Effect;
+import com.fuhu.konnect.library.paint.effect.Effect;
 
 import java.util.ArrayList;
 

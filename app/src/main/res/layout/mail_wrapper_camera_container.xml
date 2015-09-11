@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="640px"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/mail_wrapper_rl_camera_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        >
+
+        <view
+            android:layout_width="640px"
+            android:layout_height="480px"
+            android:layout_centerInParent="true"
+            class="com.jack.library.view.CameraView"
+            android:id="@+id/mail_wrapper_cv_camera_preview" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mail_wrapper_rl_btn_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/mail_wrapper_rl_camera_container">
+
+        <Button
+            android:id="@+id/mail_wrapper_btn_camera_shutter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ECF5FF"
+            android:textSize="40sp"
+            android:text="□"
+            android:background="#ACD6FF"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

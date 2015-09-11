@@ -16,6 +16,14 @@ public class Debug {
     }
 
     /**
+     * jack@150911
+     * 1. 修正開啟EffectContentWrapper時會用到上一次顯示的view holder之問題, 在每次open
+     * EffectContentWrapper 時重新設定adapter 以確保每次開啟EffectContentWrapper都必須要重新建立新的view
+     * holder.
+     *
+     */
+
+    /**
      * jack@150818
      * 1. 修正Sticker.getCategoryId為null的問題
      */

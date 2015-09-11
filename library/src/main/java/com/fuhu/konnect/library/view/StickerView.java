@@ -245,6 +245,7 @@ public class StickerView extends ImageView {
      * @param isEditable
      */
     public void setEditable(boolean isEditable) {
+        hideControl();
         mIsEditable = isEditable;
     }
 
@@ -329,6 +330,8 @@ public class StickerView extends ImageView {
 
         //Sets the flag to avoid do this again
         mIsAttachedToWindows = true;
+        if(mOnFocusChangeListener != null)
+            mOnFocusChangeListener.onFocused(this);
     }
 
     @Override
@@ -638,6 +641,10 @@ public class StickerView extends ImageView {
                 * mDensity / 2);
         mPaint.setPathEffect(mDashPathEffect);
         canvas.drawRoundRect(frame, r, r, mPaint);
+    }
+
+    public void enableDrawFrame(boolean isEnable) {
+        mIsEnableFrame = isEnable;
     }
 
     public void setScale(float scale){

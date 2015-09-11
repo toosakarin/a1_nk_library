@@ -1,12 +1,12 @@
 package com.fuhu.konnect.mail.effect;
 
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.Effect;
-import com.fuhu.konnect.library.mail.effect.EffectGroup;
+import com.fuhu.konnect.library.paint.effect.Effect;
+import com.fuhu.konnect.library.paint.effect.StickerEffects;
 
 import java.util.ArrayList;
 
-public class StickerEffect implements EffectGroup {
+public class StickerEffect extends StickerEffects {
 
     ArrayList<Effect> m_SubItems;
 

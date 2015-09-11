@@ -2,19 +2,18 @@ package com.fuhu.konnect.mail.effect;
 
 
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.Effect;
-import com.fuhu.konnect.library.mail.effect.EffectGroup;
+import com.fuhu.konnect.library.paint.effect.Effect;
+import com.fuhu.konnect.library.paint.effect.PaintEffects;
 
 import java.util.ArrayList;
 
-public class PaintEffect implements EffectGroup {
+public class PaintEffect extends PaintEffects {
 
 	private ArrayList<Effect> m_SubItems;
-	
+
 	@Override
 	public void apply() {
 		// TODO Auto-generated method stub
-		
 	}
 
     @Override
@@ -37,32 +36,30 @@ public class PaintEffect implements EffectGroup {
 			m_SubItems.add(new PaintEffectOrangeBold());
 			m_SubItems.add(new PaintEffectOrangeThin());
 			
-//			m_SubItems.add(new PaintEffectYellowBold());
-//			m_SubItems.add(new PaintEffectYellowThin());
-//			m_SubItems.add(new PaintEffectGreenBold());
-//			m_SubItems.add(new PaintEffectGreenThin());
-//
-//			m_SubItems.add(new PaintEffectDarkGreenBold());
-//			m_SubItems.add(new PaintEffectDarkGreenThin());
-//			m_SubItems.add(new PaintEffectBlueBold());
-//			m_SubItems.add(new PaintEffectBlueThin());
-//
-//			m_SubItems.add(new PaintEffectDarkBlueBold());
-//			m_SubItems.add(new PaintEffectDarkBlueThin());
-//			m_SubItems.add(new PaintEffectPurpleBold());
-//			m_SubItems.add(new PaintEffectPurpleThin());
-//
-//			m_SubItems.add(new PaintEffectBrownBold());
-//			m_SubItems.add(new PaintEffectBrownThin());
-//			m_SubItems.add(new PaintEffectBlackBold());
-//			m_SubItems.add(new PaintEffectBlackThin());
-//
-//			m_SubItems.add(new PaintEffectGrayBold());
-//			m_SubItems.add(new PaintEffectGrayThin());
-//			m_SubItems.add(new PaintEffectSilverBold());
-//			m_SubItems.add(new PaintEffectSilverThin());
-			
-			
+			m_SubItems.add(new PaintEffectYellowBold());
+			m_SubItems.add(new PaintEffectYellowThin());
+			m_SubItems.add(new PaintEffectGreenBold());
+			m_SubItems.add(new PaintEffectGreenThin());
+
+			m_SubItems.add(new PaintEffectDarkGreenBold());
+			m_SubItems.add(new PaintEffectDarkGreenThin());
+			m_SubItems.add(new PaintEffectBlueBold());
+			m_SubItems.add(new PaintEffectBlueThin());
+
+			m_SubItems.add(new PaintEffectDarkBlueBold());
+			m_SubItems.add(new PaintEffectDarkBlueThin());
+			m_SubItems.add(new PaintEffectPurpleBold());
+			m_SubItems.add(new PaintEffectPurpleThin());
+
+			m_SubItems.add(new PaintEffectBrownBold());
+			m_SubItems.add(new PaintEffectBrownThin());
+			m_SubItems.add(new PaintEffectBlackBold());
+			m_SubItems.add(new PaintEffectBlackThin());
+
+			m_SubItems.add(new PaintEffectGrayBold());
+			m_SubItems.add(new PaintEffectGrayThin());
+			m_SubItems.add(new PaintEffectSilverBold());
+			m_SubItems.add(new PaintEffectSilverThin());
 		}
 		return m_SubItems;
 	}

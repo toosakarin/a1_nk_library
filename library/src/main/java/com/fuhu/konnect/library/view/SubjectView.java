@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.fuhu.konnect.library.image.ImageConfuser;
+import com.fuhu.konnect.library.image.MapImageConfuser;
 import com.fuhu.konnect.library.utility.GenerateIntID;
 
 import java.util.ArrayList;
@@ -367,7 +369,7 @@ public class SubjectView extends RelativeLayout {
 
         public void setConfuse(int w, int h) {
             if(w <= 0 || h <= 0) return;
-            setImageConfuser(new ImageConfuserImpl(w, h));
+            setImageConfuser(new MapImageConfuser(w, h));
         }
 
         public void setImageConfuser(ImageConfuser confuser) {

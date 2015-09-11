@@ -1,13 +1,13 @@
 package com.fuhu.konnect.mail.effect;
 
-import android.graphics.Paint;
-
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.IPaintBoldEffect;
+import com.fuhu.konnect.library.paint.effect.IPaintBoldEffect;
 
 public class PaintEffectRedBold extends IPaintBoldEffect {
 
-    Paint m_Paint = new Paint();
+    {
+        paint.setColor(0xffe91c2f);
+    }
 
 	@Override
 	public void apply() {
@@ -23,17 +23,6 @@ public class PaintEffectRedBold extends IPaintBoldEffect {
     @Override
 	public int getEffectIconRes() {
 		return R.drawable.mail_icon_red_bold;
-	}
-
-
-	@Override
-	public Paint getPaint() {
-		super.getPaint();
-		
-		// for drawing path
-		m_Paint.setColor(0xffe91c2f);
-		
-		return m_Paint;
 	}
 
 }

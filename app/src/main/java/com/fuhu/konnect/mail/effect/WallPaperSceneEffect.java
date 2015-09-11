@@ -3,7 +3,7 @@ package com.fuhu.konnect.mail.effect;
 import android.util.Pair;
 
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.IMultipleWallPaperEffect;
+import com.fuhu.konnect.library.paint.effect.IMultipleWallPaperEffect;
 
 import java.util.ArrayList;
 

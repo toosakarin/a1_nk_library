@@ -1,13 +1,13 @@
 package com.fuhu.konnect.mail.effect;
 
-import android.graphics.Paint;
-
 import com.fuhu.konnect.R;
-import com.fuhu.konnect.library.mail.effect.IPaintThinEffect;
+import com.fuhu.konnect.library.paint.effect.IPaintThinEffect;
 
 public class PaintEffectRedThin extends IPaintThinEffect {
 
-    Paint m_Paint = new Paint();
+    {
+        paint.setColor(0xffe91c2f);
+    }
 
 	@Override
 	public void apply() {
@@ -23,16 +23,6 @@ public class PaintEffectRedThin extends IPaintThinEffect {
     @Override
 	public int getEffectIconRes() {
 		return R.drawable.mail_icon_red_thin;
-	}
-
-	@Override
-	public Paint getPaint() {
-		super.getPaint();
-
-		// for drawing path
-		m_Paint.setColor(0xffe91c2f);
-		
-		return m_Paint;
 	}
 
 }
