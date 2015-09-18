@@ -165,6 +165,7 @@ public class MailFragment extends Fragment {
         //Sets adapter to the PaintView for showing sub effects
         mSubEffectAdapter = new MySubEffectAdapter();
         mPaintView.setSubEffectAdapter(mSubEffectAdapter);
+        //Sets adapter for showing effect content when sub effect button to be clicked
         mEffectContentAdapter = new MyEffectContentAdapter();
         mPaintView.setEffectContentAdapter(mEffectContentAdapter);
 
@@ -198,7 +199,9 @@ public class MailFragment extends Fragment {
         Bitmap bg = BitmapFactory.decodeResource(getResources(), new WallPaperEffectDefault().getWallPaperResId());
         mPaintView.setDrawingBackground(bg);
 
-        //Sets the listener for catching the effect update event
+        /**
+         * Sets the listener for catching the effect update event
+         */
         mPaintView.setOnEffectUpdateListener(new PaintView.OnEffectUpdateListener() {
             @Override
             public boolean onPreUpdate(View paintView, Effect newEffect, Effect oldEffect) {
@@ -318,12 +321,9 @@ public class MailFragment extends Fragment {
 
     private class MySubEffectAdapter extends PaintView.SubEffectAdapter<MySubEffectVH> {
 
-        private ArrayList<EffectButton> items = new ArrayList<>();
-
         @Override
         public MySubEffectVH onCreateViewHolder(ViewGroup parent, int viewType) {
             EffectButton view = new EffectButton(MailFragment.this.getActivity());
-            items.add(view);
             return  new MySubEffectVH(view);
         }
 

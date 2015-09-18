@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.fuhu.konnect.library.Debug;
+import com.fuhu.konnect.library.paint.DefaultStickerCtrl;
 import com.fuhu.konnect.library.paint.EffectCtrl;
 import com.fuhu.konnect.library.paint.StickerCtrl;
 import com.fuhu.konnect.library.paint.effect.Effect;
@@ -36,10 +37,54 @@ import com.fuhu.konnect.library.paint.effect.NoneEffect;
 import com.fuhu.konnect.library.utility.GenerateIntID;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by jacktseng on 2015/8/20.
+* PaintView provides the way to build a flexible drawing view of various effect which are used to
+* draw. PaintView is consist of two major instances which are EffectCtrl and StickerCtrl, the
+* EffectCtrl provides the way to handle effect updating, and the StickerCtrl supports to use the
+* sticker. You can implement your instances of this two interfaces and sets to PaintView to instead
+* of default.
+* Once you have created a view, here are a few steps that you must be known:
+* <p/>
+* 1. Implements the effect for drawing<br/>
+* There are some basic effect are defined that you can implement those interfaces to make the
+* effect by yourself, see {@link com.fuhu.konnect.library.paint.effect.IPaintEffect}, {@link com.fuhu.konnect.library.paint.effect.IColorWallPaperEffect}
+* , {@link com.fuhu.konnect.library.paint.effect.IEraserEffect}, {@link com.fuhu.konnect.library.paint.effect.IEraserEffectAll},
+* {@link com.fuhu.konnect.library.paint.effect.IStickerEffect}, {@link com.fuhu.konnect.library.paint.effect.ISingleWallPaperEffect},
+* {@link com.fuhu.konnect.library.paint.effect.ISingleWallPaperEffect} etc.
+* Furthermore, you can also extend the Effect interface to build newly types of effect for
+* PaintView using, but at this time, you needs to handle this effect's updating by yourself, please
+* see below section 5.
+* <p/>
+* 2. Puts the effect into effect group and adds the effect group into PaintView with corresponding
+* button view for choosing
+* clicking<br/>
+* PaintView needs to add {@link com.fuhu.konnect.library.paint.effect.EffectGroup} which you are
+* implemented to provide relational sub effects. The EffectGroup can be as a class of effect which
+* has a corresponding view of button for clicking and trigger it to show sub effects or do something
+* else. You should use {@link #addMainEffect(android.view.View, com.fuhu.konnect.library.paint.effect.EffectGroup)}
+* to assign the EffectGroup with a corresponding clickable view.
+* <p/>
+* 3. Sets the sub effect adapter into PaintView for sub effect list displaying<br/>
+* Once the button of main effect is clicked, the PaintView will change the main effect list to show
+* the sub effect. The sub effect list are automatically inserted to the list using an
+* {@link com.fuhu.konnect.library.view.PaintView.SubEffectAdapter} that pulls view by your designing.
+* <p/>
+* 4. Sets the effect content adapter into PaintView for effect content list display when sub effect
+* is selected<br/>
+* The effect content will be shown when the sub effect of sub effect list is clicked. The effect
+* content list are automatically inserted to the grid using an
+* {@link com.fuhu.konnect.library.view.PaintView.EffectContentAdapter} that pulls view by your
+* designing.
+* <p/>
+* 5. Handles the effect when sub effect or effect content is selected
+* PaintView predefine few common effects interface and correspond handling, so if you uses those
+* predefine effects, you don't do anything that the PaintView still work fine. However, you can
+* sets the listener for catching an effect updating of PaintView, and do something that you want
+* to do, see more about {@link com.fuhu.konnect.library.view.PaintView.OnEffectUpdateListener}.
+ *
+ * <p/>
+ * Author: Jack Tseng (jack.tseng@fuhu.com)
  */
 public class PaintView extends RelativeLayout {
 
@@ -79,6 +124,8 @@ public class PaintView extends RelativeLayout {
      */
     private OnEffectUpdateListener mOnEffectUpdateListener;
 
+    private OnEffectContentClickListener mOnEffectContentClickListener;
+
     private EffectCtrl mEffectCtrl;
 
     private SubEffectAdapter mSubEffectAdapter;
@@ -116,7 +163,8 @@ public class PaintView extends RelativeLayout {
         mEffectCtrl = new DefaultEffectCtrl();
 
         //
-        mStickerCtrl = new DefaultStickerCtrl();
+//        mStickerCtrl = new DefaultStickerCtrl();
+        mStickerCtrl = new DefaultStickerCtrl(new FrameLayout(ctx));
 
 
         mMainEffectViewList = new ArrayList<>();
@@ -218,108 +266,6 @@ public class PaintView extends RelativeLayout {
         this.invalidate();
     }
 
-    public void clean() {
-        if(mStickerCtrl != null)
-            mStickerCtrl.removeAllSticker();
-        if(mDrawingView != null)
-            mDrawingView.clean();
-    }
-
-    public void setBackEffectButtonImage(Bitmap image) {
-        if(mBackEffectButton != null)
-            mBackEffectButton.setImageBitmap(image);
-    }
-
-    public ImageButton getBackEffectButton() {
-        return mBackEffectButton;
-    }
-
-    public void setSubEffectAdapter(SubEffectAdapter adapter) {
-        mSubEffectAdapter = adapter;
-        mSubEffectAdapter.mPaintView = this;
-        mSubEffectListWrapper.setAdapter(mSubEffectAdapter);
-    }
-
-    public void setEffectContentAdapter(EffectContentAdapter adapter) {
-        mEffectContentAdapter = adapter;
-        mEffectContentAdapter.setPaintView(this);
-        mEffectContentWrapper.setAdapter(mEffectContentAdapter);
-    }
-
-    public void setEffectCtl(EffectCtrl ctrl) {
-        mEffectCtrl = ctrl;
-    }
-
-    public void setStickerCtrl(StickerCtrl ctrl) {
-        if(ctrl == null) return;
-        if(ctrl.getStickerWrapper() == null) return;
-        if(mDrawingWrapper == null) return;
-
-        mStickerCtrl = ctrl;
-
-        /**
-         * Adds the sticker wrapper which providing from StickerCtrl into the DrawingView
-         */
-        FrameLayout.LayoutParams lp =
-                new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        View stickerWrapper = ctrl.getStickerWrapper();
-        mDrawingWrapper.addView(stickerWrapper, lp);
-
-        if(Debug.IS_DEBUG)
-            stickerWrapper.setBackgroundColor(Color.argb(90, 0, 0, 0));
-
-        invalidate();
-    }
-
-    public StickerCtrl getStickerCtrl() {
-        return mStickerCtrl;
-    }
-
-    public void setEffectContentSize(int w, int h) {
-        mEffectContentWrapperWidth = w;
-        mEffectContentWrapperHeight = h;
-        if((mEffectContentWrapperWidth & mEffectContentWrapperHeight) > 0) {
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mEffectContentWrapper.getLayoutParams();
-            lp.width = mEffectContentWrapperWidth;
-            lp.height = mEffectContentWrapperHeight;
-            lp.gravity = Gravity.CENTER;
-            mEffectContentWrapper.setLayoutParams(lp);
-        }
-    }
-
-    public void setOnEffectUpdateListener(OnEffectUpdateListener listener) {
-        mOnEffectUpdateListener = listener;
-    }
-
-    public void setDrawingBackground(Bitmap bg) {
-        if(bg == null) return;
-        if(mDrawingWrapper != null)
-            mDrawingWrapper.setBackground(new BitmapDrawable(getResources(), bg));
-    }
-
-    public ViewGroup getDrawingWrapper() {
-        return mDrawingWrapper;
-    }
-
-    public DrawingView getDrawingView() {
-        return mDrawingView;
-    }
-
-    public View getEffectWrapper() {
-        return mEffectToolbar;
-    }
-
-    public void addMainEffect(View view, EffectGroup effect) {
-        if(view == null) return;
-
-        setMainEffectViewOnClick(view, effect);
-        mMainEffectViewList.add(view);
-
-        //Adds view to wrapper to show on the screen
-        mMainEffectWrapper.addView(view);
-        invalidate();
-    }
-
     private void setMainEffectViewOnClick(View v, final EffectGroup e) {
         v.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -372,30 +318,6 @@ public class PaintView extends RelativeLayout {
         });
     }
 
-    //jack
-    public void applyEffect(Effect effect) {
-        if(mEffectCtrl != null)
-            mEffectCtrl.applyEffect(PaintView.this, effect);
-    }
-
-    public void cleanEffect() {
-        if(mEffectCtrl != null)
-            mEffectCtrl.clearEffect();
-        switchEffectToolbar(false);
-    }
-
-    public Effect getCurrentEffect() {
-        Effect rtn = null;
-        if(mEffectCtrl != null)
-            rtn = mEffectCtrl.getCurrentEffect();
-        return rtn;
-    }
-
-    public void setStickerEnable(boolean isEnable) {
-        if(mStickerCtrl != null)
-            mStickerCtrl.setEditable(isEnable);
-    }
-
     private void switchEffectToolbar(boolean isShowSubEffect) {
         if(isShowSubEffect) {
             //Sets the width of sub effect bar according to the main effect bar
@@ -412,7 +334,228 @@ public class PaintView extends RelativeLayout {
         }
     }
 
+    /**
+     * To clean all of effects of this view
+     */
+    public void clean() {
+        if(mStickerCtrl != null)
+            mStickerCtrl.removeAllSticker();
+        if(mDrawingView != null)
+            mDrawingView.clean();
+    }
 
+    @Deprecated
+    public void setBackEffectButtonImage(Bitmap image) {
+        if(mBackEffectButton != null)
+            mBackEffectButton.setImageBitmap(image);
+    }
+
+    /**
+     * Returns the back button which is used for changing the sub effect toolbar back to the main
+     * effect toolbar
+     * @return
+     */
+    public ImageButton getBackEffectButton() {
+        return mBackEffectButton;
+    }
+
+    /**
+     * Returns a ViewGroup which is a wrapper to hold the DrawingView
+     * @return
+     */
+    public ViewGroup getDrawingWrapper() {
+        return mDrawingWrapper;
+    }
+
+    /**
+     * Returns the DrawView of this view. The DrawingView is a view that you can draw it by touching
+     * screen
+     * @return
+     */
+    public DrawingView getDrawingView() {
+        return mDrawingView;
+    }
+
+    /**
+     * Returns the wrapper of effect toolbar which including both main effect toolbar and sub effect
+     * toolbar
+     * @return
+     */
+    public View getEffectWrapper() {
+        return mEffectToolbar;
+    }
+
+    /**
+     * Returns the effect of current usage
+     * @return
+     */
+    public Effect getCurrentEffect() {
+        Effect rtn = null;
+        if(mEffectCtrl != null)
+            rtn = mEffectCtrl.getCurrentEffect();
+        return rtn;
+    }
+
+    /**
+     * Returns the instance of StickerCtrl which default is a DefaultStickerCtrl object
+     * @return
+     */
+    public StickerCtrl getStickerCtrl() {
+        return mStickerCtrl;
+    }
+
+    /**
+     * Sets the data behind the sub effect of this view
+     * @param adapter
+     */
+    public void setSubEffectAdapter(SubEffectAdapter adapter) {
+        mSubEffectAdapter = adapter;
+        mSubEffectAdapter.mPaintView = this;
+        mSubEffectListWrapper.setAdapter(mSubEffectAdapter);
+    }
+
+    /**
+     * Sets the data behind the effect content of sub effect of this view
+     * @param adapter
+     */
+    public void setEffectContentAdapter(EffectContentAdapter adapter) {
+        mEffectContentAdapter = adapter;
+        mEffectContentAdapter.setPaintView(this);
+        mEffectContentWrapper.setAdapter(mEffectContentAdapter);
+    }
+
+    /**
+     * Sets the instance of EffectCtrl to this view
+     * @param ctrl
+     */
+    public void setEffectCtl(EffectCtrl ctrl) {
+        mEffectCtrl = ctrl;
+    }
+
+    /**
+     * Sets the instance of StickerCtrl to this view
+     * @param ctrl
+     */
+    public void setStickerCtrl(StickerCtrl ctrl) {
+        if(ctrl == null) return;
+        if(ctrl.getStickerWrapper() == null) return;
+        if(mDrawingWrapper == null) return;
+
+        mStickerCtrl = ctrl;
+
+        /**
+         * Adds the sticker wrapper which providing from StickerCtrl into the DrawingView
+         */
+        FrameLayout.LayoutParams lp =
+                new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        View stickerWrapper = ctrl.getStickerWrapper();
+        mDrawingWrapper.addView(stickerWrapper, lp);
+
+        if(Debug.IS_DEBUG)
+            stickerWrapper.setBackgroundColor(Color.argb(90, 0, 0, 0));
+
+        invalidate();
+    }
+
+    /**
+     * Allows the sticker of this view can be editable or not
+     * @param isEnable
+     */
+    public void setStickerEnable(boolean isEnable) {
+        if(mStickerCtrl != null)
+            mStickerCtrl.setEditable(isEnable);
+    }
+
+    /**
+     * Sets the layout parameters of EffectContent of this view
+     * @param w
+     * @param h
+     */
+    public void setEffectContentSize(int w, int h) {
+        mEffectContentWrapperWidth = w;
+        mEffectContentWrapperHeight = h;
+        if((mEffectContentWrapperWidth & mEffectContentWrapperHeight) > 0) {
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mEffectContentWrapper.getLayoutParams();
+            lp.width = mEffectContentWrapperWidth;
+            lp.height = mEffectContentWrapperHeight;
+            lp.gravity = Gravity.CENTER;
+            mEffectContentWrapper.setLayoutParams(lp);
+        }
+    }
+
+    /**
+     * Register a callback handler when there is a update in this view
+     * @param listener
+     */
+    public void setOnEffectUpdateListener(OnEffectUpdateListener listener) {
+        mOnEffectUpdateListener = listener;
+    }
+
+    /**
+     * Register a callback handler when there is a event content to be clicked in this view
+     * @param listener
+     */
+    public void setOnEffectContentClickListener(OnEffectContentClickListener listener) {
+        mOnEffectContentClickListener = listener;
+    }
+
+    /**
+     * Sets the background to DrawingView of this view
+     * @param bg
+     */
+    public void setDrawingBackground(Bitmap bg) {
+        if(bg == null) return;
+        if(mDrawingWrapper != null)
+            mDrawingWrapper.setBackground(new BitmapDrawable(getResources(), bg));
+    }
+
+
+
+
+    /**
+     * Adds the EffectGroup object with given view as a pair to show on the main effect toolbar. The
+     * view here will be added into the main effect toolbar showing on the PaintView . Moreover, this
+     * view is registered a click listener to be invoked passing the EffectGroup object to show the
+     * sub effect toolbar
+     * @param view
+     * @param effect
+     */
+    public void addMainEffect(View view, EffectGroup effect) {
+        if(view == null) return;
+
+        setMainEffectViewOnClick(view, effect);
+        mMainEffectViewList.add(view);
+
+        //Adds view to wrapper to show on the screen
+        mMainEffectWrapper.addView(view);
+        invalidate();
+    }
+
+
+
+    /**
+     * Assigns a new effect to this view. This effect is actually passed to the EffectCtrl object of
+     * this view
+     * @param effect
+     */
+    public void applyEffect(Effect effect) {
+        if(mEffectCtrl != null)
+            mEffectCtrl.applyEffect(PaintView.this, effect);
+    }
+
+    /**
+     * Cancels current effect of this view and backs to the main effect toolbar
+     */
+    public void cleanEffect() {
+        if(mEffectCtrl != null)
+            mEffectCtrl.clearEffect();
+        switchEffectToolbar(false);
+    }
+
+    /**
+     * Shows the effect content with given effect on the screen
+     * @param effect
+     */
     public void openEffectContent(Effect effect) {
         if(effect == null) return;
         if(mEffectContentAdapter == null) return;
@@ -430,6 +573,9 @@ public class PaintView extends RelativeLayout {
         invalidate();
     }
 
+    /**
+     * Closes the effect content of this view
+     */
     public void closeEffectContent() {
         if(mEffectContentWrapper == null) return;
         mEffectContentWrapper.removeAllViews();
@@ -543,8 +689,10 @@ public class PaintView extends RelativeLayout {
 //                    if (mPaintView != null)
 //                        mPaintView.closeEffectContent();
 
-                    if (mEffectCtrl != null)
-                        mEffectCtrl.applyEffectContent(mPaintView, (EffectContentView) v);
+                    if (mEffectCtrl != null) {
+                        EffectContentView ecv = (EffectContentView) v;
+                        mEffectCtrl.applyEffectContent(mPaintView, ecv.getContent());
+                    }
                 }
             });
         }
@@ -567,6 +715,10 @@ public class PaintView extends RelativeLayout {
         public void onPostUpdate(View paintView, Effect currentEffect);
     }
 
+    public interface OnEffectContentClickListener {
+        public void onEffectContentClick(View paintView, Effect currentEffect, Object content);
+    }
+
     private class DefaultEffectCtrl implements EffectCtrl {
 
         private Effect mCurrentEffect;
@@ -582,7 +734,9 @@ public class PaintView extends RelativeLayout {
         }
 
         @Override
-        public void applyEffect(PaintView paintView, Effect newEffect) {
+        public void applyEffect(View view, Effect newEffect) {
+
+            PaintView paintView = (view instanceof PaintView) ? (PaintView) view : null;
 
             //just to stop current effect
             if(mCurrentEffect != null)
@@ -664,191 +818,66 @@ public class PaintView extends RelativeLayout {
                 mOnEffectUpdateListener.onPostUpdate(PaintView.this, mCurrentEffect);
         }
 
+//        @Override
+//        public void applyEffectContent(PaintView pv, EffectContentView contentView) {
+//
+//            closeEffectContent();
+//
+//            if(contentView == null)
+//                return;
+//
+//            if(mCurrentEffect instanceof IStickerEffect) {
+//                View stickerView = (View) contentView.getContent();
+//                //Adds sticker into the PaintView
+//                if(mStickerCtrl != null)
+//                    mStickerCtrl.addSticker(stickerView);
+//            } else if(mCurrentEffect instanceof IColorWallPaperEffect) {
+//                Integer bgId = (Integer) contentView.getContent();
+//                mDrawingWrapper.setBackgroundColor(getResources().getColor(bgId));
+//                invalidate();
+//            } else if(mCurrentEffect instanceof IMultipleWallPaperEffect) {
+//                Integer bgId = (Integer) contentView.getContent();
+//                mDrawingWrapper.setBackgroundResource(bgId);
+//                invalidate();
+//            }
+//        }
         @Override
-        public void applyEffectContent(PaintView pv, EffectContentView contentView) {
+        public void applyEffectContent(View view, Object content) {
+
+            PaintView pv = (view instanceof PaintView) ? (PaintView) view : null;
 
             closeEffectContent();
 
-            if(contentView == null)
+            if(content == null)
                 return;
 
             if(mCurrentEffect instanceof IStickerEffect) {
-                View stickerView = (View) contentView.getContent();
-                //Adds sticker into the PaintView
-                if(mStickerCtrl != null)
-                    mStickerCtrl.addSticker(stickerView);
+                if(content instanceof View) {
+                    //Adds sticker into the PaintView
+                    if (mStickerCtrl != null)
+                        mStickerCtrl.addSticker((View) content);
+                }
+                else
+                    Log.e(TAG, "a wrong instance of class of effect content for the IStickerEffect");
+
             } else if(mCurrentEffect instanceof IColorWallPaperEffect) {
-                Integer bgId = (Integer) contentView.getContent();
-                mDrawingWrapper.setBackgroundColor(getResources().getColor(bgId));
-                invalidate();
+                if(content instanceof Integer) {
+                    mDrawingWrapper.setBackgroundColor(getResources().getColor((Integer) content));
+                    invalidate();
+                }
+                else
+                    Log.e(TAG, "a wrong instance of class of effect content for the IColorWallPaperEffect effect");
             } else if(mCurrentEffect instanceof IMultipleWallPaperEffect) {
-                Integer bgId = (Integer) contentView.getContent();
-                mDrawingWrapper.setBackgroundResource(bgId);
-                invalidate();
-            }
-        }
-    }
-
-    /**
-     * This class is an instance of StickerCtrl
-     */
-    private class DefaultStickerCtrl implements StickerCtrl<StickerView> {
-
-        private FrameLayout mStickerWrapper;
-
-        private StickerView.OnFocusChangeListener mOnStickerFocusListener = new StickerView.OnFocusChangeListener() {
-            @Override
-            public void onFocused(StickerView view) {
-                ArrayList<StickerView> views = getChildren(mStickerWrapper);
-                for(int i=0; i<views.size(); i++) {
-                    StickerView sv =  views.get(i);
-                    if(sv != view)
-                        sv.hideControl();
+                if(content instanceof Integer) {
+                    mDrawingWrapper.setBackgroundResource((Integer) content);
+                    invalidate();
                 }
-            }
-        };
-
-        private StickerView.OnButtonClickListener mOnStickerButtonClickListener = new StickerView.OnButtonClickListener() {
-            @Override
-            public void onClick(StickerView view, int btn_code) {
-
-                switch (btn_code) {
-                    case StickerView.OnButtonClickListener.CONFIRM:
-                        break;
-                    case StickerView.OnButtonClickListener.REMOVE:
-                        removeSticker(view);
-                        break;
-                    case StickerView.OnButtonClickListener.RESIZE:
-                        //nothing to do
-                        break;
-                    case StickerView.OnButtonClickListener.ROTATE:
-                        //nothing to do
-                        break;
-                    case StickerView.OnButtonClickListener.MOVE_UP:
-                        moveUp(view);
-                        break;
-                    case StickerView.OnButtonClickListener.MOVE_DOWN:
-                        moveDown(view);
-                        break;
-                }
-
-            }
-        };
-
-        private DefaultStickerCtrl() {
-            mStickerWrapper = new FrameLayout(getContext());
-        }
-
-        private ArrayList<StickerView> getChildren(ViewGroup parent) {
-            if(parent == null) return null;
-
-            ArrayList<StickerView> rtn = new ArrayList<>();
-
-            int childCount = mStickerWrapper.getChildCount();
-            for(int i=0; i<childCount; i++) {
-                rtn.add((StickerView) mStickerWrapper.getChildAt(i));
+                else
+                    Log.e(TAG, "a wrong instance of class of effect content for the IMultipleWallPaperEffect");
             }
 
-            return rtn;
-        }
-
-        private void setViews(ArrayList<StickerView> views) {
-            if(mStickerWrapper == null) return;
-            for(int i=0; i< views.size(); i++) {
-                mStickerWrapper.addView(views.get(i));
-            }
-            mStickerWrapper.invalidate();
-        }
-
-        private void resetViews(ArrayList<StickerView> views) {
-            mStickerWrapper.removeAllViews();
-            setViews(views);
-        }
-
-        @Override
-        public void setOnFocusChangeListener(StickerView.OnFocusChangeListener listener) {
-            mOnStickerFocusListener = listener;
-        }
-
-        @Override
-        public void setOnButtonClickListener(StickerView.OnButtonClickListener listener) {
-            mOnStickerButtonClickListener = listener;
-        }
-
-        @Override
-        public ViewGroup getStickerWrapper() {
-            return mStickerWrapper;
-        }
-
-        @Override
-        public void addSticker(StickerView v) {
-            if(mStickerWrapper == null) return;
-            v.setOnFocusChangeListener(mOnStickerFocusListener); //sets focus listener
-            v.setOnButtonClickListener(mOnStickerButtonClickListener);
-            /**
-             * Adds layout params when it first adds into sticker wrapper
-             */
-            if(v.getLayoutParams() == null) {
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.gravity = Gravity.CENTER;
-                v.setLayoutParams(lp);
-            }
-            mStickerWrapper.addView(v);
-        }
-
-        @Override
-        public void removeSticker(StickerView v) {
-            if(mStickerWrapper == null) return;
-            mStickerWrapper.removeView(v);
-        }
-
-        @Override
-        public void removeAllSticker() {
-            if(mStickerWrapper == null) return;
-            mStickerWrapper.removeAllViews();
-        }
-
-        @Override
-        public void moveUp(StickerView child) {
-            if(mStickerWrapper == null) return;
-            int index = mStickerWrapper.indexOfChild(child);
-            if(++index < mStickerWrapper.getChildCount())
-            move(index, child);
-        }
-
-        @Override
-        public void moveDown(StickerView child) {
-            if(mStickerWrapper == null) return;
-            int index = mStickerWrapper.indexOfChild(child);
-            if(--index >= 0)
-                move(index, child);
-        }
-
-        @Override
-        public void moveTo(int index, StickerView child) {
-            if(mStickerWrapper == null) return;
-            move(index, child);
-        }
-
-        private void move(int index, StickerView v) {
-            ArrayList<StickerView> childList = getChildren(mStickerWrapper);
-
-            //swap views
-            int _index = childList.indexOf(v);
-            StickerView _v = childList.get(index);
-            childList.set(index, v);
-            childList.set(_index, _v);
-
-            resetViews(childList);
-        }
-
-        @Override
-        public void setEditable(boolean isEditable) {
-            if(mStickerWrapper == null) return;
-            List<StickerView> childSets = getChildren(mStickerWrapper);
-            for(StickerView v : childSets) {
-                v.setEditable(isEditable);
-            }
+            if(mOnEffectContentClickListener != null)
+                mOnEffectContentClickListener.onEffectContentClick(PaintView.this, mCurrentEffect, content);
         }
     }
 

@@ -9,12 +9,20 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ * DrawingView is a class which can use to draw something by touching screen.
+ * <p/>
+ * Author: Jack Tseng (jack.tseng@fuhu.com)
+ */
 public class DrawingView extends View {
 
     private static final String TAG = DrawingView.class.getSimpleName();
 
     private static int STROKE_WIDTH_DEFAULT = 7;
 
+    /**
+     * The flag to enable drawing be erased
+     */
     private boolean mIsEraserMode;
     private boolean mIsEditable;
 
@@ -134,28 +142,51 @@ public class DrawingView extends View {
 		return true;
 	}
 
+    /**
+     * Enables this view can be drawing or not
+     * @param isEditable
+     */
 	public void setEditable(boolean isEditable){
 		this.mIsEditable = isEditable;
 	}
 
+    /**
+     * Sets the stork width of paint for drawing
+     * @param w
+     */
 	public void setStrokeWidth(float w){
 		mDrawingPaint.setStrokeWidth(w);
 	}
 
+    /**
+     * Sets the color of paint for drawing
+     * @param color
+     */
 	public void setPaintColor(int color){
 		mDrawingPaint.setColor(color);
 	}
 
+    /**
+     * Clean all of drawing of this view
+     */
 	public void clean(){
         reset();
 		invalidate();
 	}
 
+    /**
+     * Sets the paint for drawing
+     * @param paint
+     */
 	public void setPaint(Paint paint) {
 		mIsEraserMode = false;
 		this.mDrawingPaint = paint;
 	}
 
+    /**
+     * Sets the eraser for drawing
+     * @param paint
+     */
 	public void setEraser(Paint paint) {
 		mIsEraserMode = true;
 		this.mDrawingPaint = paint;

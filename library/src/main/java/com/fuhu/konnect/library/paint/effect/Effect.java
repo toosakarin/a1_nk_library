@@ -1,7 +1,10 @@
 package com.fuhu.konnect.library.paint.effect;
 
 /**
- * Created by jacktseng on 2015/8/24.
+ * The effect is an influence for painting such as drawing line, erasing and writing text etc. According to
+ * above, this interface defines some basic operations of effect.
+ * <p/>
+ * Author: Jack Tseng (jack.tseng@fuhu.com)
  */
 public interface Effect {
 

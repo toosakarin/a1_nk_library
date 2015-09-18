@@ -16,6 +16,12 @@ public class Debug {
     }
 
     /**
+     * jack@150915
+     * 1. 更改EffectCtrl.applyEffectContent(PaintView pv, EffectContentView contentView) ->
+     * applyEffectContent(PaintView pv, Object content)
+     */
+
+    /**
      * jack@150911
      * 1. 修正開啟EffectContentWrapper時會用到上一次顯示的view holder之問題, 在每次open
      * EffectContentWrapper 時重新設定adapter 以確保每次開啟EffectContentWrapper都必須要重新建立新的view

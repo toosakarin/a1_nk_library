@@ -1,20 +1,42 @@
 package com.fuhu.konnect.library.paint;
 
+import android.view.View;
+
 import com.fuhu.konnect.library.paint.effect.Effect;
-import com.fuhu.konnect.library.view.EffectContentView;
-import com.fuhu.konnect.library.view.PaintView;
 
 /**
- * Created by jacktseng on 2015/8/25.
+ * EffectCtrl is a controller providing the way to apply the effect or content of effect which
+ * you given.
+ * <p/>
+ * Author: Jack Tseng (jack.tseng@fuhu.com)
  */
 public interface EffectCtrl {
 
+    /**
+     * Returns the effect which is currently using
+     * @return
+     */
     public Effect getCurrentEffect();
 
+    /**
+     * Clears the effect of currently effect
+     */
     public void clearEffect();
 
-    public void applyEffect(PaintView pv, Effect effect);
+    /**
+     * Applies the effect with given view which is the container of this effect
+     * @param view
+     * @param effect
+     */
+    public void applyEffect(View view, Effect effect);
 
-    public void applyEffectContent(PaintView pv, EffectContentView contentView);
+    /**
+     * Applies the content of effect with given view which is a container of the effect
+     * @param view
+     * @param content
+     */
+//    public void applyEffectContent(PaintView pv, EffectContentView contentView);
+    public void applyEffectContent(View view, Object content);
+
 
 }

@@ -3,7 +3,9 @@ package com.fuhu.konnect.library.paint.effect;
 import java.util.ArrayList;
 
 /**
- * Created by jacktseng on 2015/8/26.
+ * The EffectGroup is a collection of effects, and it's an effect too.
+ * <p/>
+ * Author: Jack Tseng (jack.tsneg@fuhu.com)
  */
 public interface EffectGroup extends Effect {
 
