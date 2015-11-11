@@ -203,13 +203,11 @@ public class PaintView extends RelativeLayout {
         /**
          * Sets layout params
          */
-
         int subjectScrollerId = 0;
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
             subjectScrollerId = GenerateIntID.generateViewId();
         else
             subjectScrollerId = View.generateViewId();
-//        mMainEffectScroller.setId(subjectScrollerId);
         mEffectToolbar.setId(subjectScrollerId);
 
         //Adds main effect wrapper into scroller
@@ -217,15 +215,11 @@ public class PaintView extends RelativeLayout {
         mMainEffectScroller.addView(mMainEffectWrapper, mainEffectWrapperLp);
         //Sets location of main effect bar
         RelativeLayout.LayoutParams mainEffectScrollerLp = new LayoutParams(LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-//        mainEffectScrollerLp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//        this.addView(mMainEffectScroller, mainEffectScrollerLp);
         mainEffectScrollerLp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         mEffectToolbar.addView(mMainEffectScroller, mainEffectScrollerLp);
 
         //Sets the location of sub effect list wrapper is same as subject wrapper
         RelativeLayout.LayoutParams subEffectListWrapperLp = new LayoutParams(LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-//        mainEffectScrollerLp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//        this.addView(mSubEffectListWrapper, subEffectListWrapperLp);
         subEffectListWrapperLp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         mEffectToolbar.addView(mSubEffectListWrapper, subEffectListWrapperLp);
 
@@ -233,8 +227,6 @@ public class PaintView extends RelativeLayout {
         this.addView(mEffectToolbar, effectToolbarLp);
 
         RelativeLayout.LayoutParams drawingViewLp = new LayoutParams(LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-//        drawingViewLp.addRule(RIGHT_OF, subjectScrollerId);
-//        this.addView(mDrawingView, drawingViewLp);
         mDrawingWrapper.addView(mDrawingView,drawingViewLp);
 
         //Adds the effect content into the DrawingWrapper
@@ -252,7 +244,6 @@ public class PaintView extends RelativeLayout {
         backEffectBtnLp.addRule(RIGHT_OF, subjectScrollerId);
         backEffectBtnLp.addRule(ALIGN_PARENT_TOP);
         this.addView(mBackEffectButton, backEffectBtnLp);
-
 
         /**
          * for testing
@@ -818,29 +809,6 @@ public class PaintView extends RelativeLayout {
                 mOnEffectUpdateListener.onPostUpdate(PaintView.this, mCurrentEffect);
         }
 
-//        @Override
-//        public void applyEffectContent(PaintView pv, EffectContentView contentView) {
-//
-//            closeEffectContent();
-//
-//            if(contentView == null)
-//                return;
-//
-//            if(mCurrentEffect instanceof IStickerEffect) {
-//                View stickerView = (View) contentView.getContent();
-//                //Adds sticker into the PaintView
-//                if(mStickerCtrl != null)
-//                    mStickerCtrl.addSticker(stickerView);
-//            } else if(mCurrentEffect instanceof IColorWallPaperEffect) {
-//                Integer bgId = (Integer) contentView.getContent();
-//                mDrawingWrapper.setBackgroundColor(getResources().getColor(bgId));
-//                invalidate();
-//            } else if(mCurrentEffect instanceof IMultipleWallPaperEffect) {
-//                Integer bgId = (Integer) contentView.getContent();
-//                mDrawingWrapper.setBackgroundResource(bgId);
-//                invalidate();
-//            }
-//        }
         @Override
         public void applyEffectContent(View view, Object content) {
 

@@ -1,15 +1,10 @@
 package com.fuhu.konnect.library.view;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,13 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.fuhu.konnect.library.Debug;
 
@@ -52,7 +43,7 @@ public class PhotoView extends RecyclerView {
     /**
      *
      */
-    private PhotoPageFragment mPageFragment;
+    private PageFragment mPageFragment;
 
     /**
      *
@@ -62,6 +53,18 @@ public class PhotoView extends RecyclerView {
     private OnPhotoPageChangeListener mOnPhotoPageChangeListener;
 
     private OnPhotoListScrollListener mOnPhotoListScrollListener;
+
+    public interface OnPhotoListScrollListener {
+        public void onTop();
+        public void onBottom();
+        public void onScroll();
+    }
+
+    /**
+     * This interface is a preparatory callback for executing some process before pop to other class
+     * which use PhotoView when PageAdapter touching, and now is nothing to do.
+     */
+    public interface OnPhotoPageChangeListener extends ViewPager.OnPageChangeListener{}
 
 
     public PhotoView(Context context) {
@@ -90,10 +93,39 @@ public class PhotoView extends RecyclerView {
         displayPhotoList(mPhotoListSpanCount);
     }
 
+    /**
+     * Returns this view can be changed the display layout or not
+     * @return
+     */
     public boolean isDisplayChangeable() {
         return mIsDisplayChangeable;
     }
 
+    /**
+     * Returns the span of the staggered list of this view
+     * @return
+     */
+    public int getPhotoListSpanCount() {
+        return mPhotoListSpanCount;
+    }
+
+    /**
+     * Returns the fragment of fullscreen display of this view
+     * @return
+     */
+    public PageFragment getPhotoPageFragment() {
+        return mPageFragment;
+    }
+
+//    @Deprecated
+//    public PagerAdapter getPhotoPageAdapter() {
+//        return mPhotoPageAdapter;
+//    }
+
+    /**
+     * Enables this view can change the display layout or not
+     * @param changeable
+     */
     public void setDisplayChangeable(boolean changeable) {
         mIsDisplayChangeable = changeable;
     }
@@ -101,22 +133,22 @@ public class PhotoView extends RecyclerView {
     @Deprecated
     @Override
     public void setAdapter(Adapter adapter) {
-        if(adapter instanceof PhotoAdapter)
-            setAdapter((PhotoAdapter) adapter);
+        if(adapter instanceof PhotoListAdapter)
+            setAdapter((PhotoListAdapter) adapter);
     }
 
     /**
-     * The adapter extends RecycleView.Adapter for RecycleView using at list display.
+     * Sets the data behind this view of list display
      *
      * @param adapter
      */
-    public void setAdapter(PhotoAdapter adapter) {
+    public void setAdapter(PhotoListAdapter adapter) {
         super.setAdapter(adapter);
         adapter.bindPhotoViewView(this);
     }
 
     /**
-     * The adapter is a PageAdapter for ViewPager using at page display.
+     * Sets the data behind this view of page display
      *
      * @param adapter
      */
@@ -124,31 +156,40 @@ public class PhotoView extends RecyclerView {
         mPhotoPageAdapter = adapter;
     }
 
-    public PagerAdapter getPhotoPageAdapter() {
-        return mPhotoPageAdapter;
-    }
-
+    /**
+     * Sets the listener to catch the event when list of this view is scrolled
+     * @param listener
+     */
     public void setOnPhotoListScrollListener(OnPhotoListScrollListener listener) {
         mOnPhotoListScrollListener = listener;
     }
 
+    /**
+     * Sets the callback which is invoked when the page of this view is flipping
+     * @param listener
+     */
     public void setOnPhotoPageChangeListener(OnPhotoPageChangeListener listener) {
         mOnPhotoPageChangeListener = listener;
     }
 
-    public ViewPager getPhotoViewPager() {
-        return (mPageFragment == null) ? null : mPageFragment.mViewPager;
-    }
+//    @Deprecated
+//    public ViewPager getPhotoViewPager() {
+//        return (mPageFragment == null) ? null : mPageFragment.mViewPager;
+//    }
 
+    /**
+     * Sets the span of the staggered list of this view
+     * @param spanCount
+     */
     public void setPhotoListSpanCount(int spanCount) {
         mPhotoListSpanCount = spanCount;
         displayPhotoList(mPhotoListSpanCount);
     }
 
-    public int getPhotoListSpanCount() {
-        return mPhotoListSpanCount;
-    }
-
+    /**
+     * Shows the photo to list displaying of this view with given spans
+     * @param column
+     */
     public void displayPhotoList(int column) {
         if(!mIsDisplayChangeable)
             return;
@@ -248,17 +289,16 @@ public class PhotoView extends RecyclerView {
     }
 
     /**
-     * Set photo to page display with special position of photos.`
-     * The function is using Dialog with DialogFragment to show fullscreen.
-     *
-     * @param currentPos Position of photos which you want to show at first.
+     * Sets the photo to page display with given position of photos. The function is using Dialog
+     * with DialogFragment to show fullscreen
+     * @param currentPos Position of photos which you want to show at first
      */
     public void displayPhotoPage(int currentPos) {
         if(!mIsDisplayChangeable)
             return;
 
         if(mPhotoPageAdapter == null) {
-            Log.w(TAG, "can't change to photo page display cause PageAdapter is null");
+            Log.w(TAG, "can't change to photo page display because PageAdapter is null");
             return;
         }
 
@@ -266,9 +306,9 @@ public class PhotoView extends RecyclerView {
             Activity activity = (Activity) getContext();
             FragmentManager fragmentManager = activity.getFragmentManager();
             Bundle bundle = new Bundle();
-            bundle.putInt(PhotoPageFragment.FLAG_CURRENT_POSITION, currentPos);
+            bundle.putInt(PageFragment.FLAG_CURRENT_POSITION, currentPos);
 
-            PhotoPageFragment ppfragment = new PhotoPageFragment();
+            PageFragment ppfragment = new PageFragment();
             ppfragment.setArguments(bundle);
             ppfragment.setAdapter(mPhotoPageAdapter);
             ppfragment.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -290,7 +330,7 @@ public class PhotoView extends RecyclerView {
                         mOnPhotoPageChangeListener.onPageScrollStateChanged(state);
                 }
             });
-            ppfragment.setOnPageCloseListener(new OnPhotoPageCloseListener() {
+            ppfragment.setOnPageCloseListener(new PageFragment.OnCloseListener() {
                 @Override
                 public void onFragmentClosed() {
                     mPageFragment = null;
@@ -333,19 +373,19 @@ public class PhotoView extends RecyclerView {
 //    }
 
     /**
-     * PhotoAdapter implements a basic architecture for photo showing and display changing in PhotoView.
-     * For PhotoView, user need to extend PhotoAdapter to customize the view of user's application just
+     * PhotoListAdapter implements a basic architecture for photo showing and display changing in PhotoView.
+     * For PhotoView, user need to extend PhotoListAdapter to customize the view of user's application just
      * like another basic adapter of Android.
      *
      * @param <VH> VH is extends PhotoHolder which to keep the photo of ImageView by user Customized.
      */
-    public static abstract class PhotoAdapter <VH extends PhotoHolder> extends Adapter<VH> {
+    public static abstract class PhotoListAdapter<VH extends PhotoListHolder> extends Adapter<VH> {
 
         private PhotoView mPhotoView;
 
-        public abstract VH onCreatePhotoHolder(ViewGroup viewGroup, int viewType);
+        public abstract VH onCreatePhotoListHolder(ViewGroup viewGroup, int viewType);
 
-        public abstract void onBindPhotoHolder(VH holder, int position);
+        public abstract void onBindPhotoListHolder(VH holder, int position);
 
         public abstract void onPhotoClick(ImageView photo, VH holder);
 
@@ -356,7 +396,7 @@ public class PhotoView extends RecyclerView {
 
         @Override
         public VH onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            VH holder = onCreatePhotoHolder(viewGroup, viewType);
+            VH holder = onCreatePhotoListHolder(viewGroup, viewType);
 
             if(holder != null) {
 
@@ -371,7 +411,7 @@ public class PhotoView extends RecyclerView {
                                      * changing photos to page display
                                      */
                                     if (mPhotoView.isDisplayChangeable()) {
-                                        if(view.getTag() instanceof PhotoHolder) {
+                                        if(view.getTag() instanceof PhotoListHolder) {
                                             VH _holder = (VH) view.getTag();
                                             mPhotoView.displayPhotoPage(_holder.Position);
                                         }
@@ -380,7 +420,7 @@ public class PhotoView extends RecyclerView {
                                     /**
                                      * pass onClick event of image of photo to subclass
                                      */
-                                    if (view.getTag() instanceof PhotoHolder) {
+                                    if (view.getTag() instanceof PhotoListHolder) {
                                         VH _holder = (VH) view.getTag();
                                         onPhotoClick((ImageView) view, _holder);
                                     }
@@ -398,7 +438,7 @@ public class PhotoView extends RecyclerView {
 
         @Override
         public void onBindViewHolder(VH holder, int position) {
-            onBindPhotoHolder(holder, position);
+            onBindPhotoListHolder(holder, position);
 
             holder.setPosition(position);
         }
@@ -408,11 +448,11 @@ public class PhotoView extends RecyclerView {
      * This holder is a basic holder which just keep an ImageView of photo
      * with its corresponding position of photos.
      */
-    public static abstract class PhotoHolder extends ViewHolder {
+    public static abstract class PhotoListHolder extends ViewHolder {
         int Position;
         ImageView mPhoto;
 
-        public PhotoHolder(View itemView, ImageView photo) {
+        public PhotoListHolder(View itemView, ImageView photo) {
             super(itemView);
             mPhoto = photo;
         }
@@ -432,90 +472,10 @@ public class PhotoView extends RecyclerView {
         public int getCorrespondPosition() { return Position; }
     }
 
+
     /**
      *
      */
-    public static class PhotoPageFragment extends DialogFragment {
-        public static final String TAG = PhotoPageFragment.class.getSimpleName();
-
-        public static final String FLAG_CURRENT_POSITION = "CURRENT_POSITION";
-
-        private ViewPager mViewPager;
-        private PagerAdapter mPageAdapter;
-        private ViewPager.OnPageChangeListener mOnPageChangeListener;
-        private OnPhotoPageCloseListener mOnPageCloseListener;
-
-        public void setAdapter(PagerAdapter adapter) {
-            mPageAdapter = adapter;
-        }
-
-        public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-            mOnPageChangeListener = listener;
-        }
-
-        public void setOnPageCloseListener(OnPhotoPageCloseListener listener) {
-            mOnPageCloseListener = listener;
-        }
-
-        public PagerAdapter getAdapter() {
-            return mPageAdapter;
-        }
-
-        public ViewPager getViewPager() {
-            return mViewPager;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            int currentPos = 0;
-            Bundle bundle = getArguments();
-            if(bundle != null)
-                currentPos = bundle.getInt(FLAG_CURRENT_POSITION);
-
-            Debug.dumpLog(PhotoPageFragment.TAG, "currentPos=" + currentPos);
-
-            Context ctx = inflater.getContext();
-            mViewPager = new ViewPager(ctx);
-//            mPageAdapter = new DefaultPhotoPageAdapter(container.getContext(), mPhotoRawDataList);
-            mViewPager.setAdapter(mPageAdapter);
-            mViewPager.setOnPageChangeListener(mOnPageChangeListener);
-            mViewPager.setCurrentItem(currentPos);
-
-            return mViewPager;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            /**
-             * it's a tips for how dialog show with fullscreen by adding RelativeLayout to dialog's root view
-             */
-            RelativeLayout root = new RelativeLayout(getActivity());
-            root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-            Dialog dialog = new Dialog(getActivity());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(root);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(225, 0,0,0)));
-            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-            dialog.setCancelable(false);
-
-            return dialog;
-        }
-
-        @Override
-        public void onDismiss(DialogInterface dialog) {
-            super.onDismiss(dialog);
-
-            mViewPager.removeAllViews();
-            if(mOnPageCloseListener != null)
-                mOnPageCloseListener.onFragmentClosed();
-
-            mOnPageChangeListener = null;
-            mOnPageCloseListener = null;
-        }
-    }
-
     public static class DefaultPhotoPageAdapter extends PagerAdapter {
         public static final String TAG = DefaultPhotoPageAdapter.class.getSimpleName();
 
@@ -574,22 +534,6 @@ public class PhotoView extends RecyclerView {
             View v = mViews.get(position);
             container.removeView(v);
         }
-    }
-
-    public interface OnPhotoListScrollListener {
-        public void onTop();
-        public void onBottom();
-        public void onScroll();
-    }
-
-    /**
-     * This interface is a preparatory callback for executing some process before pop to other class
-     * which use PhotoView when PageAdapter touching, and now is nothing to do.
-     */
-    public interface OnPhotoPageChangeListener extends ViewPager.OnPageChangeListener{}
-
-    public interface OnPhotoPageCloseListener {
-        public void onFragmentClosed();
     }
 
 }

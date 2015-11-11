@@ -33,36 +33,36 @@ public class MainFragment extends Fragment{
         root.findViewById(R.id.main_btn_photoDemo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.switchFragment(new PhotoFragment());
+                mActivity.switchFragment(new PhotoDemoFragment());
             }
         });
 
         /**
          *  Friend avatar demo
          */
-        root.findViewById(R.id.main_btn_avatarSolid).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.main_btn_avatarDemo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.switchFragment(new AvatarSolidFragment2());
+                mActivity.switchFragment(new AvatarDemoFragment());
             }
         });
 
         /**
          *  Chat sticker demo
          */
-        root.findViewById(R.id.main_btn_chatSticker).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.main_btn_stickerDemo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.switchFragment(new ChatStickerFragment2());
+                mActivity.switchFragment(new StickerDemoFragment());
             }
         });
         /**
          * Mail demo
          */
-        root.findViewById(R.id.main_btn_mail).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.main_btn_paintDemo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.switchFragment(new MailFragment());
+                mActivity.switchFragment(new PaintDemoFragment());
             }
         });
 //        /**

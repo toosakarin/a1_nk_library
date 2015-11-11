@@ -6,14 +6,25 @@ import android.util.Log;
  * Created by jacktseng on 2015/5/25.
  */
 public class Debug {
-    public final static String TAG = "Konnect_lib";
+    public final static String TAG = "nabikonnect_lib";
 
-    public static boolean IS_DEBUG = true;
+    public static boolean IS_DEBUG = false;
 
     public static void dumpLog(String tag, String msg) {
         if(IS_DEBUG)
             Log.d(TAG + "/" + tag, msg);
     }
+
+    /**
+     * jack@151019
+     * 1. Modified the issue of displaying photo of the PhotoView at fullscreen has the status bar.
+     */
+
+    /**
+     * jack@150922
+     * 1. 將PageFragment class從PhotoView中獨立出來
+     * 2. PhotoAdapter 更名為 PhotoListAdapter (PhotoHolder->PhotoListHolder)
+     */
 
     /**
      * jack@150915

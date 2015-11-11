@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.fuhu.konnect.library.Debug;
 import com.fuhu.konnect.library.image.ImageConfuser;
 import com.fuhu.konnect.library.image.MapImageConfuser;
 import com.fuhu.konnect.library.utility.GenerateIntID;
@@ -100,6 +101,14 @@ public class SubjectView extends RelativeLayout {
         }
     }
 
+    /**
+     * The interface is invoked from adapter when subject view or content view to be clicked
+     */
+    public interface OnClickListener {
+        public void onSubjectClick(View v);
+        public void onContentClick(View v);
+    }
+
     public SubjectView(Context context) {
         super(context);
         init();
@@ -132,6 +141,9 @@ public class SubjectView extends RelativeLayout {
 
     }
 
+    /**
+     * Releases all resource of this view
+     */
     public void release() {
         if(mSubjectScrollView != null)
             mSubjectScrollView.removeAllViews();
@@ -157,9 +169,16 @@ public class SubjectView extends RelativeLayout {
         removeAllViews();
     }
 
+    /**
+     * Sets the layout align of subject of this view, the align has four places are left, top, right
+     * , and bottom
+     * @param align
+     */
     public void setSubjectAlign(int align) {
         if(align != SUBJECT_ALIGN_LEFT && align != SUBJECT_ALIGN_TOP &&
                 align != SUBJECT_ALIGN_RIGHT && align != SUBJECT_ALIGN_BOTTOM) return;
+
+        Debug.dumpLog(TAG, "sets layout params for resetting align of subject toolbar");
 
         int subjectScrollerId = 0;
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -233,13 +252,18 @@ public class SubjectView extends RelativeLayout {
                 this.addView(mContentWrapper);
 
             mSubjectAlign = align;
-
             this.invalidate();
+
+            Debug.dumpLog(TAG, "resets subject toolbar success");
         } while(false);
 
 
     }
 
+    /**
+     * Sets the content spans of grid count of this view
+     * @param span
+     */
     public void setContentSpan(int span) {
         if(span < 1) return;
         if(mContentWrapper.getLayoutManager() == null) return;
@@ -251,6 +275,10 @@ public class SubjectView extends RelativeLayout {
         }
     }
 
+    /**
+     * Sets the orientation of content display of this view
+     * @param orientation
+     */
     public void setContentOrientation(int orientation) {
         if(orientation != CONTENT_ORIENTATION_HORIZONTAL &&
                 orientation != CONTENT_ORIENTATION_VERTICAL) return;
@@ -264,14 +292,10 @@ public class SubjectView extends RelativeLayout {
         }
     }
 
-    public ViewGroup getSubjectWrapper() {
-        return mSubjectWrapper;
-    }
-
-    public RecyclerView getContentWrapper() {
-        return mContentWrapper;
-    }
-
+    /**
+     * Sets the adapter of ContentAdapter to this view for displaying contents
+     * @param adapter
+     */
     public void setAdapter(ContentAdapter adapter) {
         mContentAdapter = adapter;
         mContentAdapter.mSubjectView = this;
@@ -280,24 +304,35 @@ public class SubjectView extends RelativeLayout {
         /**
          * update avatar by confusing all subject's image
          */
+        Debug.dumpLog(TAG, "adapter is confusing the select content because a new adapter is assigned");
         mContentAdapter.confuseSelectContent();
     }
 
+    /**
+     * Sets the OnClickListener to listen the event of both subject and content views
+     * @param listener
+     */
     public void setOnClickListener(OnClickListener listener) {
         mOnClickListener = listener;
     }
 
-    //jack@150623
+    /**
+     * Adds a new subject view to the subject toolbar of this view
+     * @param subject
+     */
     public void addSubject(View subject) {
         if(subject == null) return;
         if(mSubjectList.size() >= SUBJECT_COUNT_MAX) return;
 
+        /**
+         * Assigns the OnClickListener for changing content
+         */
         subject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCurrentSubject = v;
                 if (mContentAdapter != null) {
-                    mContentAdapter.onSubjectChanged(v); //jack@150618
+                    mContentAdapter.onSubjectChanged(v);
                     mContentAdapter.notifyDataSetChanged();
                 }
 
@@ -315,23 +350,69 @@ public class SubjectView extends RelativeLayout {
         if(mCurrentSubject == null)
             mCurrentSubject = subject;
     }
+
+    /**
+     * Returns the wrapper of subject toolbar of this view
+     * @return
+     */
+    public ViewGroup getSubjectWrapper() {
+        return mSubjectWrapper;
+    }
+
+    /**
+     * Returns the wrapper of contents of grid of this view
+     * @return
+     */
+    public RecyclerView getContentWrapper() {
+        return mContentWrapper;
+    }
+
+    /**
+     * Returns the align of subject of this view
+     * @return
+     */
+    public int getSubjectAlign() {
+        return mSubjectAlign;
+    }
+
+    /**
+     * Returns the orientation of content display of this view
+     * @return
+     */
+    public int getContentOrientation() {
+        return mContentOrientation;
+    }
+
+    /**
+     * Returns a currently used subject
+     * @return
+     */
+    public View getCurrentSubject() {
+        return mCurrentSubject;
+    }
+
+    /**
+     * Adds the content selector which is a key pair with given key of the subject and corresponding
+     * value of the subject. That is indicating which content of this subject is selected. In
+     * addition, the hierarchy represents the z-order of layout of the content of this subject
+     * @param hierarchy
+     * @param key
+     * @param value
+     */
     public void addContentSelector(int hierarchy, Object key, Object value) {
         if(!mContentSelectorMap.containsKey(key))
             mContentSelectorMap.put(key, new ContentSelector(hierarchy, key, value));
     }
 
-
-
-
+    /**
+     * Removes the subject view of subject toolbar of this view
+     * @param subject
+     */
     public void removeSubject(View subject) {
         if(subject == null) return;
         mSubjectList.remove(subject);
         mSubjectRecordMap.remove(subject);
         mSubjectWrapper.removeView(subject);
-    }
-
-    public View getCurrentSubject() {
-        return mCurrentSubject;
     }
 
 
@@ -419,6 +500,7 @@ public class SubjectView extends RelativeLayout {
                         /**
                          * confusing select contents
                          */
+                        Debug.dumpLog(TAG, "starts to confuse the content of current subject ");
                         confuseSelectContent();
 
                         if(mSubjectView.mOnClickListener != null)
@@ -449,11 +531,6 @@ public class SubjectView extends RelativeLayout {
 
             onContentConfused(selectorList, rtnBitmap);
         }
-    }
-
-    public interface OnClickListener {
-        public void onSubjectClick(View v);
-        public void onContentClick(View v);
     }
 
 

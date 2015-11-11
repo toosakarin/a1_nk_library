@@ -6,26 +6,26 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="PHOTO"
+        android:text="PHOTO(PhotoView)"
         android:id="@+id/main_btn_photoDemo" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SOLID MENU (AVATAR)"
-        android:id="@+id/main_btn_avatarSolid" />
+        android:text="AVATAR(SubjectView)"
+        android:id="@+id/main_btn_avatarDemo" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CHAT_STICKER"
-        android:id="@+id/main_btn_chatSticker" />
+        android:text="STICKER(StickerManager)"
+        android:id="@+id/main_btn_stickerDemo" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MAIL"
-        android:id="@+id/main_btn_mail" />
+        android:text="PAINT(PaintView)"
+        android:id="@+id/main_btn_paintDemo" />
 
     <!--<Button-->
         <!--android:layout_width="match_parent"-->

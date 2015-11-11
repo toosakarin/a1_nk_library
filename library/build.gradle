@@ -16,6 +16,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    //for make jar
+//    lintOptions {
+//        abortOnError false
+//    }
+
+
 }
 
 dependencies {
@@ -24,7 +31,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.3'
 }
 
-// This is the actual solution, as in http://stackoverflow.com/a/19037807/1002054
+////This is the actual solution, as in http://stackoverflow.com/a/19037807/1002054
 //task clearJar(type: Delete) {
 //    delete 'build/libs/nabiKonnect_library.jar'
 //}
